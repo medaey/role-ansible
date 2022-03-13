@@ -1,0 +1,5 @@
+---
+- hosts: glpi
+  become: yes
+  roles:
+    - glpi

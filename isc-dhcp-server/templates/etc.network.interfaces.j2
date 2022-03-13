@@ -1,0 +1,10 @@
+source /etc/network/interfaces.d/*
+
+auto lo
+iface lo inet loopback
+
+auto eht0
+allow-hotplug eht0
+iface eth0 inet static
+address 172.16.0.2/24
+address 172.16.0.254
