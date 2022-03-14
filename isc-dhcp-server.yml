@@ -1,5 +1,5 @@
 ---
-- hosts: linux
+- hosts: isc-dhcp-server
   become: yes
   roles:
     - isc-dhcp-server
