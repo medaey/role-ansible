@@ -1,7 +1,7 @@
 ---
 # tasks file for my-tools
-- name: Installation des PAQUETS mc, tree, net-tools, htop, neofetch
+- name: Installation des PAQUETS mc, tree, net-tools, htop, neofetch, wget, ufw
   apt:
-    pkg: [mc, tree, net-tools, htop, neofetch]
+    pkg: [mc, tree, net-tools, htop, neofetch, wget, ufw]
     update_cache: yes
     state: latest
