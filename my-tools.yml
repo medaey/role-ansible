@@ -1,5 +1,5 @@
 ---
-- hosts: linux
+- hosts: my-tools
   become: yes
   roles:
     - my-tools
