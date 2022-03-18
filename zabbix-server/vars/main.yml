@@ -1,4 +1,5 @@
 ---
 # vars file for zabbix-server
-mysqlZabbixUser: zabbix
-mysqlZabbixPassword: password
+mysqlDatabaseName: zabbix
+mysqlUser: zabbix
+mysqlPassword: zabbix
