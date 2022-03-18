@@ -1,0 +1,5 @@
+---
+# vars file for bind9
+dnsName: cossu.tech
+forwardDns: 8.8.8.8
+dnsSerialNumber: 20221703
