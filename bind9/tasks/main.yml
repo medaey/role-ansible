@@ -1,0 +1,34 @@
+---
+# tasks file for bind9
+- name: Installation des PAQUETS
+  apt:
+    pkg: [dnsutils, bind9]
+    update_cache: yes
+    state: latest
+
+- name: Change le nom du serveur en {{ dnsName }}
+  hostname: name={{ dnsName }} use=systemd
+
+- name: /templates/etc.hosts.j2 --> /etc/hosts
+  template: src=./templates/etc.hosts.j2 dest=/etc/hosts owner=root group=root mode='0644'
+
+- name: ./templates/etc.resolv.conf.j2 --> /etc/resolv.conf
+  template: src=./templates/etc.resolv.conf.j2 dest=/etc/resolv.conf owner=root group=root mode='0644'
+
+- name: Activation & Redémarrage du services systemd-resolved
+  systemd: state=restarted name=systemd-resolved enabled=yes masked=no
+
+- name: ./templates/etc.bind9.named.conf.options.j2 --> /etc/bind/named.conf.options
+  template: src=./templates/etc.bind9.named.conf.options.j2 dest=/etc/bind/named.conf.options owner=root group=root mode='0644'
+
+- name: ./templates/etc.bind.named.conf.local.j2 --> /etc/bind/named.conf.local
+  template: src=./templates/etc.bind.named.conf.local.j2 dest=/etc/bind/named.conf.local owner=root group=root mode='0644'
+
+- name: ./templates/etc.bind.db.dnsName.j2 --> /etc/bind/db.{{ dnsName }}
+  template: src=./templates/etc.bind.db.dnsName.j2 dest=/etc/bind/db.{{ dnsName }} owner=root group=root mode='0644'
+
+- name: ./templates/etc.bind.db.dnsNameReverse.in-addr.arpa.j2 --> /etc/bind/db.{{ dnsName }}.reverse.in-addr.arpa
+  template: src=./templates/etc.bind.db.dnsNameReverse.in-addr.arpa.j2 dest=/etc/bind/db.{{ dnsName }}.reverse.in-addr.arpa owner=root group=root mode='0644'
+
+- name: Activation & Redémarrage du services systemd-resolved
+  systemd: state=restarted name=bind9 enabled=yes masked=no
