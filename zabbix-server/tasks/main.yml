@@ -18,11 +18,14 @@
     update_cache: yes
     state: latest
 
-- name: Creation de la basse de donnee 'zabbix-server'
-  shell: sudo mysql -u "root" -Bse "CREATE DATABASE zabbix character set utf8mb4 collate utf8mb4_bin; CREATE USER {{ mysqlZabbixUser }}@localhost IDENTIFIED BY '{{ mysqlZabbixPassword }}'; GRANT ALL PRIVILEGES ON zabbix.* TO {{ mysqlZabbixUser }}@localhost; FLUSH PRIVILEGES;"
+- name: Creation de la basse de donnee '{{ mysqlDatabaseName }}'
+  shell: sudo mysql -u "root" -Bse "CREATE DATABASE {{ mysqlDatabaseName }} character set utf8mb4 collate utf8mb4_bin; CREATE USER {{ mysqlUser }}@localhost IDENTIFIED BY '{{ mysqlPassword }}'; GRANT ALL PRIVILEGES ON {{ mysqlDatabaseName }}.* TO {{ mysqlUser }}@localhost; FLUSH PRIVILEGES;"
 
-- name: Configuration de zabbix-server
-  template: src=./templates/etc.zabbix.zabbix_server.conf.j2 dest=/etc/zabbix/zabbix_server.conf owner=root group=root mode='0644'
+- name: Creation de la basse de donnee '{{ mysqlDatabaseName }}'
+  shell: zcat /usr/share/doc/zabbix-sql-scripts/mysql/server.sql.gz | mysql -u{{ mysqlUser }} -p{{ mysqlPassword }} {{ mysqlDatabaseName }}
+
+- name: Configuration de /etc/zabbix/zabbix_server.conf
+  shell: sed -i 's/.*DBPassword*/DBPassword={{ mysqlPassword }}/g' /etc/zabbix/zabbix_server.conf
 
 - name: Activation & Redémarrage du services zabbix-server
   systemd: state=restarted name=zabbix-server enabled=yes masked=no
