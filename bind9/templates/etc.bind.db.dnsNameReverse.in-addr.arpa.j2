@@ -1,6 +1,6 @@
 $TTL    604800
 @       IN      SOA     dns.{{ dnsName }}. admin.{{ dnsName }} (
-                   {{ dnsSerialNumber }}    ; Numero de serie AnneMoisJour
+                   {{ansible_date_time.year}}{{ansible_date_time.month}}{{ansible_date_time.day}}    ; Numero de serie AnneMoisJour
                    604800      ; Temps de rafraichissement
                    86400       ; Temps entre les essais
                    2419200     ; Temps expiration
