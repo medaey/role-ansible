@@ -1,10 +1,4 @@
 [linux]
-Lab-01 ansible_host=192.168.1.100 ansible_user=toor ansible_sudo_pass=root ansible_python_interpreter=/usr/bin/python3
-SRV-LAB1 ansible_host=192.168.1.25 ansible_user=toor ansible_sudo_pass=root ansible_python_interpreter=/usr/bin/python3
-SRV-LAB2 ansible_host=192.168.1.24 ansible_user=toor ansible_sudo_pass=root ansible_python_interpreter=/usr/bin/python3
-BKTIC_SRVProxy ansible_host=172.16.0.1 ansible_user=toor ansible_sudo_pass=root ansible_python_interpreter=/usr/bin/python3
-BKTIC_SRV1 ansible_host=172.16.0.2 ansible_user=toor ansible_sudo_pass=root ansible_python_interpreter=/usr/bin/python3
-BKTIC_SRV2 ansible_host=172.16.0.3 ansible_user=toor ansible_sudo_pass=root ansible_python_interpreter=/usr/bin/python3
 
 [glpi]
 
@@ -13,8 +7,12 @@ BKTIC_SRV2 ansible_host=172.16.0.3 ansible_user=toor ansible_sudo_pass=root ansi
 [squid]
 
 [zabbix-server]
-BKTIC_SRV2 ansible_host=172.16.0.3 ansible_user=toor ansible_sudo_pass=root ansible_python_interpreter=/usr/bin/python3
 
 [my-tools]
 
 [bind9]
+
+[pi]
+raspberrypi3bPlus ansible_host=192.168.5.10 ansible_user=pi
+raspberrypiZeroW ansible_host=192.168.5.11 ansible_user=pi
+raspberrypiZero ansible_host=192.168.5.12 ansible_user=pi
