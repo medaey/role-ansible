@@ -1,0 +1,23 @@
+hostname
+
+clientid
+persistent
+
+option rapid_commit
+option domain_name_servers, domain_name, domain_search, host_name
+option classless_static_routes
+option interface_mtu
+require dhcp_server_identifier
+
+slaac private
+reboot 15
+denyinterfaces ethpi* ethupi* ethupi*.10 brint usb0.10 eth0
+
+profile clusterctrl_fallback_br0
+static ip_address={{ ClusterMasterNodeIp }}{{ ClusterDefaultSubnet }}
+
+interface br0
+static ip_address={{ ClusterMasterNodeIp }}{{ ClusterDefaultSubnet }}
+static routers={{ ClusterDefaultRouters }}
+static domain_name_servers={{ ClusterDefaultDomainNameServers }}
+fallback clusterctrl_fallback_br0
