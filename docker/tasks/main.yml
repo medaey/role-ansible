@@ -1,0 +1,7 @@
+---
+# tasks file for docker
+- name: Download installation script
+  shell: "curl -fsSL https://get.docker.com -o get-docker.sh"
+
+- name: Run a script
+  shell: "sudo sh get-docker.sh"
