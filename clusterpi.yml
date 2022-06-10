@@ -1,0 +1,5 @@
+---
+- hosts: ClusterPiMaster ClusterPiNode
+  become: yes
+  roles:
+    - clusterpi

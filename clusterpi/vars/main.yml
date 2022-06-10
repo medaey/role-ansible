@@ -1,0 +1,7 @@
+---
+# vars file for clusterpi
+ClusterMasterNodeIp: 192.168.5.10
+ClusterDefaultSubnet: /24
+ClusterDefaultRouters: 192.168.5.1
+ClusterDefaultDomainNameServers: 192.168.5.1 8.8.8.8
+ClusterNodeIp: 192.168.5.11
