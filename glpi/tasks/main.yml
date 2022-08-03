@@ -21,26 +21,17 @@
       - php-bz2
       - php-ldap
       - php-imap
-    update_cache: yes
+    update_cache: true
     state: latest
 
 - name: Téléchargement de glpi {{ glpiVersion }}
-  get_url: 
-    url: http://github.com/glpi-project/glpi/releases/download/{{ glpiVersion }}/glpi-{{ glpiVersion }}.tgz
-    dest: /tmp/glpi-{{ glpiVersion }}.tgz
-
-- name: Décompression de glpi {{ glpiVersion }}
   unarchive: 
-    src: /tmp/glpi-{{ glpiVersion }}.tgz
-    dest: /var/www/html
-    remote_src: yes
-
-- name: Permission du répertoire /var/www/html/glpi
-  file:
+    src: http://github.com/glpi-project/glpi/releases/download/{{ glpiVersion }}/glpi-{{ glpiVersion }}.tgz
     dest: /var/www/html/glpi
     owner: www-data
     group: www-data
-    recurse: yes
+    remote_src: true
+    validate_certs: true
 
 - name: Redémarrage du services apache2
   systemd: 
@@ -55,7 +46,7 @@
 - name: Protège l'accès web au répertoire glpi
   lineinfile: 
     dest: /etc/apache2/apache2.conf 
-    line: "'<Directory /var/www/html/glpi>\n        Options Indexes FollowSymLinks\n        AllowOverride all\n        Require all granted\n</Directory>'"
+    line: '<Directory /var/www/html/glpi>\n        Options Indexes FollowSymLinks\n        AllowOverride all\n        Require all granted\n</Directory>'
 
 - name: Activation & Redémarrage du services apache2
   systemd:
