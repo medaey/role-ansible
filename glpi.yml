@@ -1,5 +1,5 @@
 ---
-- hosts: glpi
+- hosts: web_dev
   become: yes
   roles:
     - glpi

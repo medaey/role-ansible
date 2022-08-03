@@ -1,6 +1,6 @@
 ---
 # tasks file for glpi
-- name: Installation des PAQUETS necessaire a glpi
+- name: Installation des PAQUETS nécessaire a glpi
   apt:
     name: 
       - wget
@@ -24,10 +24,10 @@
     update_cache: yes
     state: latest
 
-- name: Telechargement de glpi {{ glpiVersion }}
+- name: Téléchargement de glpi {{ glpiVersion }}
   get_url: 
     url: http://github.com/glpi-project/glpi/releases/download/{{ glpiVersion }}/glpi-{{ glpiVersion }}.tgz
-    dest: /tmp
+    dest: /tmp/glpi-{{ glpiVersion }}.tgz
 
 - name: Décompression de glpi {{ glpiVersion }}
   unarchive: 
@@ -35,7 +35,7 @@
     dest: /var/www/html
     remote_src: yes
 
-- name: Permission du repertoire /var/www/html/glpi
+- name: Permission du répertoire /var/www/html/glpi
   file:
     dest: /var/www/html/glpi
     owner: www-data
@@ -49,13 +49,13 @@
     enabled: yes
     masked: no
 
-- name: Creation de la basse de donnee '{{ mysqlDatabaseName }}'
+- name: Création de la base de données '{{ mysqlDatabaseName }}'
   shell: sudo mysql -u "root" -Bse "CREATE DATABASE {{ mysqlDatabaseName }}; CREATE USER {{ mysqlUser }}@localhost IDENTIFIED BY '{{ mysqlPassword }}'; GRANT ALL PRIVILEGES ON {{ mysqlDatabaseName }}.* TO {{ mysqlUser }}@localhost; FLUSH PRIVILEGES;"
 
-- name: Protége l'accès web au répertoire glpi
+- name: Protège l'accès web au répertoire glpi
   lineinfile: 
-  dest: /etc/apache2/apache2.conf 
-  line: '<Directory /var/www/html/glpi>\n        Options Indexes FollowSymLinks\n        AllowOverride all\n        Require all granted\n</Directory>'
+    dest: /etc/apache2/apache2.conf 
+    line: "'<Directory /var/www/html/glpi>\n        Options Indexes FollowSymLinks\n        AllowOverride all\n        Require all granted\n</Directory>'"
 
 - name: Activation & Redémarrage du services apache2
   systemd:
