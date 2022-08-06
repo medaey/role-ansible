@@ -1,10 +1,10 @@
-Liste des role ansible que j'ai crée
+# Liste des role ansible
+
+Ce depon contient les role que j'ai crée pou l'outis ansible afin d'aumatisite l'intallation  et la gestion de configuration sur des multiple seveur.
 
 # Préparer sont environement
 
-Pour crée un environement de test j'utilise multipass qui est outils en ligne de commande pour crée plusieur machine virtuelle facilement.
-
-Pour installer multipass sous linux & man utiliser snap ou brew pour windows un .exe est disponible sur le site officiel  https://multipass.run
+Crée un environement de test j'utilise l'outils en ligne de commande multipass pour crée plusieur machines virtuelle rapidement. Multpass s'install sous linux & mac a l'aide de snap ou brew pour windows un setup.exe est disponibel sur le site officiel https://multipass.run
 
 ```
 multipass launch 22.04 -n ansible-master -c 2 -m 1G
