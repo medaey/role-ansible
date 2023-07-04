@@ -1,0 +1,8 @@
+---
+# vars file for sambaad-root-dc
+realm: mydomain.lan 
+domain: mydomain
+domain_name: "{{ inventory_hostname }}.{{ realm }}"
+samba_version: 4.13
+admin_password: Poseidon!
+dns_forwarder: 1.1.1.1

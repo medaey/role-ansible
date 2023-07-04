@@ -1,0 +1,10 @@
+[libdefaults]
+        default_realm = {{ realm|upper }}
+        dns_lookup_kdc = true
+        dns_lookup_realm = false
+
+[realms]
+  {{ realm|upper }} = {
+  kdc = 127.0.0.1
+  kdc = {{ ip_sambaad_root_dc }}
+  }

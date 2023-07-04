@@ -1,0 +1,5 @@
+---
+- hosts: sambaad-secondary-dc
+  become: yes
+  roles:
+    - sambaad-secondary-dc
