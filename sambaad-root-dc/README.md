@@ -99,7 +99,7 @@ echo "deb https://samba.tranquil.it/debian/samba-4.13/ $(lsb_release -c -s) main
 ```
 export DEBIAN_FRONTEND=noninteractive
 apt-get update
-apt-get install samba winbind libnss-winbind krb5-user smbclient ldb-tools python3-crypto
+apt-get install -y samba winbind libnss-winbind krb5-user smbclient ldb-tools python3-crypto
 unset DEBIAN_FRONTEND
 ```
 
@@ -126,13 +126,17 @@ nano /etc/krb5.conf
 # Effacer le fichier /etc/smb/smb.conf s’il a déjà été généré (il sera régénéré par la commande d’instanciation)
 rm -f /etc/samba/smb.conf
 # Configurer Samba avec le rôle de contrôleur de domaine. Dans la ligne qui suit, vous penserez à changer à la fois le nom du royaume kerberos, et le nom court du domaine (nom netbios)
-samba-tool domain provision --realm=QUEST.COM --domain=QUEST --server-role=dc
+samba-tool domain provision --realm=QUEST.COM --domain=QUEST --server-role=dc --adminpass=Poseidon! 
 #Ré-initialiser le mot de passe administrator
 samba-tool user setpassword administrator
 # Poseidon!
 ```
 
 - Vérifier la ligne `dns forwarder = xxx.xxx.xxx.xxx` dans votre fichier `/etc/samba/smb.conf`. Elle doit pointer vers un serveur DNS valide, par ex :
+
+  ```
+  nano /etc/samba/smb.conf
+  ```
 
   ```
   dns forwarder = 1.1.1.1
