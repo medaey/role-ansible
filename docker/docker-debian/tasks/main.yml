@@ -1,0 +1,53 @@
+---
+# tasks file for docker-debian
+- name: Vérifier si l'utilisateur exécute le script avec les privilèges root
+  assert:
+    that: ansible_user_id == 'root'
+    fail_msg: "Ce script doit être exécuté en tant que root"
+    success_msg: "Le script est en cours d'exécution en tant que root"
+
+- name: Supprimer les anciennes versions de Docker
+  apt:
+    name:
+      - docker
+      - docker-engine
+      - docker.io
+      - containerd
+      - runc
+    state: absent
+
+- name: Mettre à jour l'index des paquets apt et installer les paquets nécessaires
+  apt:
+    name:
+      - ca-certificates
+      - curl
+      - gnupg
+      - lsb-release
+    state: present
+
+- name: Ajouter la clé GPG officielle de Docker
+  apt_key:
+    url: https://download.docker.com/linux/debian/gpg
+    state: present
+
+- name: Ajouter le dépôt Docker au fichier sources.list.d
+  apt_repository:
+    repo: "deb [arch={{ dpkg_architecture }} signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian {{ ansible_lsb.codename }} stable"
+    state: present
+    filename: docker.list
+
+- name: Mettre à jour l'index des paquets apt à nouveau
+  apt:
+    update_cache: yes
+
+- name: Installer Docker Engine, containerd et Docker Compose
+  apt:
+    name:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+      - docker-compose
+    state: present
+
+- name: Vérifier l'installation en exécutant l'image hello-world
+  command: docker run hello-world

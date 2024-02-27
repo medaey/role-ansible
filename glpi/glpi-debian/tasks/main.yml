@@ -1,0 +1,28 @@
+---
+# tasks file for glpi-debian
+- name: Installation des PAQUETS wget, apache2, libapache2-mod-php, mariadb-server, php-mysqli, php-mbstring, php-curl, php-gd, php-simplexml, php-intl, php-ldap, php-apcu, php-xmlrpc, php-cas, php-zip, php-bz2, php-ldap, php-imap
+  apt:
+    pkg: [wget, apache2, libapache2-mod-php, mariadb-server, php-mysqli, php-mbstring, php-curl, php-gd, php-simplexml, php-intl, php-ldap, php-apcu, php-xmlrpc, php-cas, php-zip, php-bz2, php-ldap, php-imap]
+    update_cache: yes
+    state: latest
+
+- name: Telechargement de glpi {{ glpiVersion }}
+  get_url: url=http://github.com/glpi-project/glpi/releases/download/{{ glpiVersion }}/glpi-{{ glpiVersion }}.tgz dest=/tmp
+
+- name: Déconpression de glpi {{ glpiVersion }}
+  unarchive: src=/tmp/glpi-{{ glpiVersion }}.tgz dest=/var/www/html remote_src=yes
+
+- name: Permission du repertoire /var/www/html/glpi
+  file: dest=/var/www/html/glpi owner=www-data group=www-data recurse=yes
+
+- name: Activation & Redémarrage du services apache2
+  systemd: state=restarted name=apache2 enabled=yes masked=no
+
+- name: Creation de la basse de donnee '{{ mysqlDatabaseName }}'
+  shell: sudo mysql -u "root" -Bse "CREATE DATABASE {{ mysqlDatabaseName }}; CREATE USER {{ mysqlUser }}@localhost IDENTIFIED BY '{{ mysqlPassword }}'; GRANT ALL PRIVILEGES ON {{ mysqlDatabaseName }}.* TO {{ mysqlUser }}@localhost; FLUSH PRIVILEGES;"
+
+- name: Protége l'accès web au répertoire glpi
+  lineinfile: dest=/etc/apache2/apache2.conf line='<Directory /var/www/html/glpi>\n        Options Indexes FollowSymLinks\n        AllowOverride all\n        Require all granted\n</Directory>'
+
+- name: Activation & Redémarrage du services apache2
+  systemd: state=restarted name=apache2 enabled=yes masked=no

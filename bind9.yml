@@ -1,5 +1,0 @@
----
-- hosts: bind9
-  become: yes
-  roles:
-    - bind9

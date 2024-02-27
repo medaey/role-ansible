@@ -1,5 +1,0 @@
----
-- hosts: my-tools pi
-  become: yes
-  roles:
-    - my-tools
