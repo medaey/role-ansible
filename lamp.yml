@@ -1,0 +1,13 @@
+---
+- hosts: all
+  roles:
+    - lamp
+
+  tasks:
+    - name: Choix du role en fonction de la distribution
+      debug:
+        var: ansible_facts['os_family']
+
+    - name: Inclure le rôle spécifique à la distribution
+      include_role:
+        name: "./lamp/lamp-{{ ansible_facts['os_family'] | lower }}"
