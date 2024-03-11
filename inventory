@@ -8,3 +8,6 @@ raspberrypiClusterP2 ansible_host=p2.local ansible_user=pi
 [lamp]
 109 ansible_host=109.local ansible_user=root
 117 ansible_host=117.local ansible_user=root
+
+[minecraft]
+116 ansible_host=116.local ansible_user=root

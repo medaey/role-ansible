@@ -1,0 +1,6 @@
+---
+# vars file for minecraft-alpine
+minecraftPassword: minecraft
+paperFile: paper-1.20.4-450.jar
+minRam: 4G
+maxRam: 4G
