@@ -28,7 +28,7 @@ maxstartups 10:30:60        # Ensure SSH MaxStartups is configured
 RekeyLimit 512M 6h          # Ensure SSH RekeyLimit is configured
 StrictModes yes             # Ensure SSH StrictModes is enabled
 IgnoreUserKnownHosts yes    # Ensure SSH IgnoreUserKnownHosts is enabled
-Banner /etc/mybanner        # Ensure SSH warning banner is configured
+Banner /etc/ssh/banner      # Ensure SSH warning banner is configured
 
 # Ensure sshd ClientAliveInterval and ClientAliveCountMax are configured
 ClientAliveInterval 300
