@@ -1,5 +1,5 @@
 ---
-- hosts: squid
+- hosts: ssh
   become: yes
   roles:
-    - squid
+    - ssh

@@ -1,0 +1,5 @@
+- name: Installer des outils système
+  hosts: "{{ playbook_file_name_without_extension }}"
+  become: yes
+  roles:
+    - "{{ playbook_file_name_without_extension }}"
