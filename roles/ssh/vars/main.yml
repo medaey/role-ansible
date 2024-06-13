@@ -1,2 +1,7 @@
 ---
 # vars file for ssh
+# User allow to ssh connect
+ssh_allowed_users:
+  - root
+  - sysadmin
+  - medaey

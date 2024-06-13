@@ -1,2 +1,23 @@
+# roles/ssh/tasks/main.yml
 ---
-# tasks file for ssh
+- name: "Mise en place d'une Configuration sécurisée pour ssh"
+  block:
+    - name: "SSH - Configuration de sshd"
+      template:
+        src: "{{ role_path }}/templates/{{ item.src }}"
+        dest: "{{ item.dest }}"
+        mode: "{{ item.mode }}"
+        owner: root
+        group: root
+      loop:
+        - { src: "etc.ssh.sshd_config.j2", dest: "/etc/ssh/sshd_config", mode: "0600" }
+        - { src: "etc.ssh.sshd_config.d.access.conf.j2", dest: "/etc/ssh/sshd_config.d/access.conf", mode: "0600", cis: Ensure SSH access is limited }
+        - { src: "etc.ssh.banner.j2", dest: "/etc/ssh/banner", mode: "0600", cis: Ensure SSH warning banner is configured }
+      notify: restart sshd
+  become: true
+  ignore_errors: true
+
+- name: restart sshd
+  service:
+    name: sshd
+    state: restarted
