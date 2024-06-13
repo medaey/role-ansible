@@ -10,7 +10,10 @@ fi
 role_name=$1
 
 # Création du rôle avec ansible-galaxy
+mkdir -p roles
+cd roles
 ansible-galaxy role init $role_name
+cd ../
 
 # Création du répertoire pour les playbooks s'il n'existe pas encore
 mkdir -p playbooks
