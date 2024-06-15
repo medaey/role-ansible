@@ -1,7 +1,6 @@
 
 ## Correction d'erreur a effectuer
--[ ] Fix le connexion root est désactiver mais certain serveur on que un utilisateur root
--[ ] Fix sous alpineLinux des fonction ne fonctionne pas comme PrintLastLog, GSSAPI, Kerberos...
+-[ ] Fix la connexion en root est autoriser il faudrait crée un user est désactiver cela
 
 ## Feature a crée
--[ ] Add Faire en sorte que le role detect la distribution et la version pour adapter la stratégie un debian 11 n'est pas un debian 12
+-[ ] Add prise en charge en plus de os-familly des os-version.

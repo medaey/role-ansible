@@ -4,7 +4,7 @@ Port 22
 AddressFamily inet          # Specifies which IP address family sshd should use. (any, inet (IPv4 only), inet6 (IPv6 only)).
 
 ListenAddress 0.0.0.0
-PrintLastLog yes
+# PrintLastLog yes
 
 AcceptEnv LANG LC_*
 KbdInteractiveAuthentication no
@@ -21,7 +21,7 @@ PermitRootLogin yes         # Ensure SSH root login is disabled
 PermitEmptyPasswords no     # Ensure SSH PermitEmptyPasswords is disabled
 PermitUserEnvironment no    # Ensure SSH PermitUserEnvironment is disabled
 LoginGraceTime 60s          # Ensure SSH LoginGraceTime is set to one minute or less
-UsePAM yes                  # Ensure SSH PAM is enabled
+# UsePAM yes                  # Ensure SSH PAM is enabled
 maxsessions 10              # Ensure SSH MaxSessions is set to 4 or less
 AllowTCPForwarding yes      # Ensure SSH AllowTcpForwarding is disabled
 maxstartups 10:30:60        # Ensure SSH MaxStartups is configured
@@ -41,11 +41,11 @@ KexAlgorithms curve25519-sha256,curve25519-sha256@libssh.org,diffie-hellman-grou
 
 # Ensure ssh client use only Key Authentication
 PubkeyAuthentication yes
-PasswordAuthentication no
-KerberosAuthentication no
+PasswordAuthentication yes
+# KerberosAuthentication no
 ChallengeResponseAuthentication no
-GSSAPIAuthentication no
-GSSAPIKeyExchange no
+# GSSAPIAuthentication no
+# GSSAPIKeyExchange no
 
 # 99.5.2.3_ssh_disable_features
 AllowAgentForwarding no
