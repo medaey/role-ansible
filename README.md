@@ -18,6 +18,13 @@ source : https://www.ansible.com/
 ## Introduction
 Ce dépôt github est ma vision de l'utilisation d'ansible à savoir respecter l'arborescence standardisée par ansible-galaxy, mais revisiter afin de tenir compte des environnements Linux utilisant plusieurs types des distributions.
 
+## Prérequis
+Installer ansible et les module de la community
+```
+apt install ansible
+ansible-galaxy collection install community.general
+```
+
 ### Exemple d'Utilisation:
 `ansible-playbook lamp.yml -i inventory`
 Cette commande lance le rôle lamp sur les machines listées dans le fichier d'inventaire (inventory). Cela implique que les machines cibles doivent être définies dans le fichier inventory et appartenir au groupe lamp.

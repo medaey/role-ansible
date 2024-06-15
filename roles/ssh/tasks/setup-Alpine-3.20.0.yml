@@ -1,16 +1,15 @@
 ---
-
 # Installation des paquets
 - name: Installation des PAQUETS
-  apt:
-    pkg: [openssh-server-pam]
-    update_cache: yes
+  community.general.apk:
+    name: [openssh-server, openssh-server-pam]
     state: latest
+    update_cache: true
 
 - name: "SSH - configuration for Alpine os family"
   block:
     - name: "SSH - Configuration de sshd"
-      template:
+      ansible.builtin.template:
         src: "{{ role_path }}/templates/{{ item.src }}"
         dest: "{{ item.dest }}"
         mode: "{{ item.mode }}"

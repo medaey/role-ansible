@@ -1,8 +1,15 @@
 ---
+# Installation des paquets
+- name: Installation des PAQUETS
+  ansible.builtin.apt:
+    name: [openssh-server]
+    update_cache: yes
+    state: latest
+
 - name: "SSH - configuration for Debian os family"
   block:
     - name: "SSH - Configuration de sshd"
-      template:
+      ansible.builtin.template:
         src: "{{ role_path }}/templates/{{ item.src }}"
         dest: "{{ item.dest }}"
         mode: "{{ item.mode }}"
