@@ -21,7 +21,7 @@ PermitRootLogin yes         # Ensure SSH root login is disabled
 PermitEmptyPasswords no     # Ensure SSH PermitEmptyPasswords is disabled
 PermitUserEnvironment no    # Ensure SSH PermitUserEnvironment is disabled
 LoginGraceTime 60s          # Ensure SSH LoginGraceTime is set to one minute or less
-# UsePAM yes                  # Ensure SSH PAM is enabled
+UsePAM yes                  # Ensure SSH PAM is enabled
 maxsessions 10              # Ensure SSH MaxSessions is set to 4 or less
 AllowTCPForwarding yes      # Ensure SSH AllowTcpForwarding is disabled
 maxstartups 10:30:60        # Ensure SSH MaxStartups is configured
