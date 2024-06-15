@@ -1,0 +1,25 @@
+---
+# Installation des paquets
+- name: Installation des PAQUETS
+  community.general.apk:
+    name: [openssh-server, openssh-server-pam]
+    state: latest
+    update_cache: true
+
+- name: "SSH - configuration for Alpine os family"
+  block:
+    - name: "SSH - Configuration de sshd"
+      ansible.builtin.template:
+        src: "{{ role_path }}/templates/{{ item.src }}"
+        dest: "{{ item.dest }}"
+        mode: "{{ item.mode }}"
+        owner: root
+        group: root
+      loop:
+        - { src: "Alpine.etc.ssh.sshd_config.j2", dest: "/etc/ssh/sshd_config", mode: "0600" }
+        - { src: "etc.ssh.sshd_config.d.access.conf.j2", dest: "/etc/ssh/sshd_config.d/access.conf", mode: "0600", cis: Ensure SSH access is limited }
+        - { src: "etc.ssh.banner.j2", dest: "/etc/ssh/banner", mode: "0600", cis: Ensure SSH warning banner is configured }
+      notify: restart sshd
+  become: true
+  ignore_errors: true
+  when: ansible_facts['os_family'] == "Alpine"

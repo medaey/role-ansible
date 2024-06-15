@@ -15,26 +15,26 @@
       delay: 10
       changed_when: false
 
-    - name: Définir la variable public_ip_address
+    - name: Définir la variable ssh_allowed_public_ip_address
       set_fact:
-        public_ip_address: "{{ public_ip.json.ip }}"
+        ssh_allowed_public_ip_address: "{{ public_ip.json.ip }}"
 
     - name: Obtenir l'adresse IP privée du maître Ansible
       shell: hostname -I | awk '{print $1}'
       register: private_ip_output
       changed_when: false
 
-    - name: Définir la variable private_ip_address
+    - name: Définir la variable ssh_allowed_private_ip_address
       set_fact:
-        private_ip_address: "{{ private_ip_output.stdout.strip() }}"
+        ssh_allowed_private_ip_address: "{{ private_ip_output.stdout.strip() }}"
 
     - name: Afficher l'adresse IP publique
       debug:
-        msg: "IP publique: {{ public_ip_address }}"
+        msg: "IP publique: {{ ssh_allowed_public_ip_address }}"
 
     - name: Afficher l'adresse IP privée
       debug:
-        msg: "IP privée: {{ private_ip_address }}"
+        msg: "IP privée: {{ ssh_allowed_private_ip_address }}"
 
     # - name: Afficher ssh user
     #   debug:
