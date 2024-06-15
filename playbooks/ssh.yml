@@ -10,5 +10,6 @@
   vars:
     public_ip_address: "{{ hostvars['localhost']['public_ip_address'] }}"
     private_ip_address: "{{ hostvars['localhost']['private_ip_address'] }}"
+  
   roles:
     - ssh
