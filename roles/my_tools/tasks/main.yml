@@ -1,15 +1,8 @@
 ---
-# tasks file for my_tools
-- name: Installation des PAQUETS
-  community.general.apk:
-    name: [mc, tree, net-tools, htop, neofetch, wget, ufw, ncdu, nmap]
-    state: latest
-    update_cache: true
-  when: ansible_distribution == 'Alpine'
+- name: Inclure les tâches spécifiques pour les autres distributions
+  include_tasks: setup-{{ ansible_os_family }}-{{ ansible_distribution_version }}.yml
+  when: ansible_distribution != "Alpine"
 
-- name: Installation des PAQUETS
-  ansible.builtin.apt:
-    name: [mc, tree, net-tools, htop, neofetch, wget, ufw, ncdu, nmap]
-    update_cache: yes
-    state: latest
-  when: ansible_facts['os_family'] == "Debian"
+- name: Inclure les tâches spécifiques pour Alpine
+  include_tasks: setup-{{ ansible_os_family }}-{{ ansible_distribution_version.split('.')[:2] | join('.') }}.yml
+  when: ansible_distribution == "Alpine"

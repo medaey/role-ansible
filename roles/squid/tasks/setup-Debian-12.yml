@@ -5,7 +5,7 @@
     pkg: [squid, ufw, rsync]
     update_cache: yes
     state: latest
-  when: ansible_facts['os_family'] == "Debian"
+  when: ansible_distribution == "Debian"
 
 # Add Firewall rule
 - name: "SQUID - configuration for Debian os family"
@@ -25,7 +25,7 @@
   become: true
   ignore_errors: true
   notify: restart squid
-  when: ansible_facts['os_family'] == "Debian"
+  when: ansible_distribution == "Debian"
 
 - name: "SQUID - configuration for Alpine os family"
   block:
@@ -42,4 +42,4 @@
   become: true
   ignore_errors: true
   notify: restart squid
-  when: ansible_facts['os_family'] == "Debian"
+  when: ansible_distribution == "Debian"

@@ -1,0 +1,7 @@
+---
+- name: Installation des PAQUETS
+  ansible.builtin.apt:
+    name: [mc, tree, net-tools, htop, neofetch, wget, ufw, ncdu, nmap]
+    state: latest
+    update_cache: yes
+  when: ansible_distribution == "Debian"

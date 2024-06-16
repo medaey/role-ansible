@@ -5,7 +5,7 @@
     name: [openssh-server, openssh-server-pam]
     state: latest
     update_cache: true
-  when: ansible_distribution == 'Alpine'
+  when: ansible_distribution == "Alpine"
 
 - name: Vérifier si le répertoire /etc/ssh/sshd_config.d existe
   stat:
@@ -42,7 +42,7 @@
     regexp: '.*GSSAPIAuthentication.*'
     line: '#GSSAPIAuthentication no'
     insertbefore: BOF
-  when: ansible_distribution == 'Alpine'
+  when: ansible_distribution == "Alpine"
 
 
 - name: Commenter la ligne GSSAPIKeyExchange pour Alpine Linux
@@ -51,7 +51,7 @@
     regexp: 'GSSAPIKeyExchange.*'
     line: '#GSSAPIKeyExchange no'
     insertbefore: BOF
-  when: ansible_distribution == 'Alpine'
+  when: ansible_distribution == "Alpine"
 
 - name: Commenter la ligne KerberosAuthentication pour Alpine Linux
   lineinfile:
@@ -59,7 +59,7 @@
     regexp: '.*KerberosAuthentication.*'
     line: '#KerberosAuthentication no'
     insertbefore: BOF
-  when: ansible_distribution == 'Alpine'
+  when: ansible_distribution == "Alpine"
 
 - name: Commenter la ligne PrintLastLog pour Alpine Linux
   lineinfile:
@@ -67,4 +67,4 @@
     regexp: '.*PrintLastLog.*'
     line: '#PrintLastLog no'
     insertbefore: BOF
-  when: ansible_distribution == 'Alpine'
+  when: ansible_distribution == "Alpine"
