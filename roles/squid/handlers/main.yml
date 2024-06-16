@@ -1,6 +1,6 @@
 ---
 # handlers file for squid
-- name: Restart squid
+- name: restart squid
   become: true
   service:
     name: squid

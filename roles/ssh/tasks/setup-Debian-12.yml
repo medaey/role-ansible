@@ -34,5 +34,5 @@
         - { src: "etc.ssh.banner.j2", dest: "/etc/ssh/banner", mode: "0600", cis: Ensure SSH warning banner is configured }
   become: true
   ignore_errors: true
-  notify: Restart sshd
+  notify: restart sshd
   when: ansible_facts['os_family'] == "Debian"

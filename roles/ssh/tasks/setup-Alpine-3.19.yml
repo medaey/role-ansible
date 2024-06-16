@@ -32,7 +32,7 @@
         - { src: "etc.ssh.sshd_config.j2", dest: "/etc/ssh/sshd_config", mode: "0600" }
         - { src: "etc.ssh.sshd_config.d.access.conf.j2", dest: "/etc/ssh/sshd_config.d/access.conf", mode: "0600", cis: Ensure SSH access is limited }
         - { src: "etc.ssh.banner.j2", dest: "/etc/ssh/banner", mode: "0600", cis: Ensure SSH warning banner is configured }
-      notify: Restart sshd
+      notify: restart sshd
   become: true
   ignore_errors: true
 

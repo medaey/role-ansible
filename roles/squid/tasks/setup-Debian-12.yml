@@ -24,5 +24,21 @@
         state: enabled
   become: true
   ignore_errors: true
-  notify: restart Squid
+  notify: restart squid
+  when: ansible_facts['os_family'] == "Debian"
+
+- name: "SQUID - configuration for Alpine os family"
+  block:
+    - name: "SQUID - Configuration de squid"
+      ansible.builtin.template:
+        src: "{{ role_path }}/templates/{{ item.src }}"
+        dest: "{{ item.dest }}"
+        mode: "{{ item.mode }}"
+        owner: root
+        group: root
+      loop:
+        - { src: "etc.squid.squid.conf.j2", dest: "/etc/squid/squid.conf", mode: "0644" }
+  become: true
+  ignore_errors: true
+  notify: restart squid
   when: ansible_facts['os_family'] == "Debian"

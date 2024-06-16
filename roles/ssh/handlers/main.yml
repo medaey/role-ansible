@@ -1,6 +1,6 @@
 ---
 # handlers file for ssh
-- name: Restart sshd
+- name: restart sshd
   become: true
   service:
     name: sshd

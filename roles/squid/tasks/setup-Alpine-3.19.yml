@@ -36,5 +36,5 @@
         - { src: "etc.squid.squid.conf.j2", dest: "/etc/squid/squid.conf", mode: "0644" }
   become: true
   ignore_errors: true
-  notify: restart Squid
+  notify: restart squid
   when: ansible_facts['os_family'] == "Alpine"
