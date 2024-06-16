@@ -10,3 +10,4 @@ Ce rôle Ansible simplifie l'installation d'un ensemble d'outils utilitaires ess
     - neofetch      : Affiche les informations système avec un logo ASCII et des détails sur la distribution.
     - wget          : Outil pour récupérer des fichiers depuis le Web en ligne de commande.
     - ncdu          : Un outil interactif pour explorer et gérer l'utilisation du disque avec une vue hiérarchique.
+    - nmap          : Un scanner de ports réseau pour découvrir les dispositifs sur des réseaux et les services qu'ils offrent.
