@@ -1,7 +1,15 @@
 ---
 # tasks file for my-tools
 - name: Installation des PAQUETS
-  apt:
-    pkg: [mc, tree, net-tools, htop, neofetch, wget, ufw, ncdu]
+  community.general.apk:
+    name: [mc, tree, net-tools, htop, neofetch, wget, ufw, ncdu]
+    state: latest
+    update_cache: true
+  when: ansible_distribution == 'Alpine'
+
+- name: Installation des PAQUETS
+  ansible.builtin.apt:
+    name: [mc, tree, net-tools, htop, neofetch, wget, ufw, ncdu]
     update_cache: yes
     state: latest
+  when: ansible_facts['os_family'] == "Debian"
