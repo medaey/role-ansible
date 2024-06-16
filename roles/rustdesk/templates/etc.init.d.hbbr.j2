@@ -1,0 +1,16 @@
+#!/sbin/openrc-run
+
+description="serveur Relais RustDesk ID"
+command_background="yes"
+pidfile="/var/run/hbbr.pid"
+command="/usr/bin/hbbr"
+command_user="rustdesk:rustdesk"
+output_log="/var/log/rustdesk-server/hbbr.log"
+
+depend() {
+    need localmount
+}
+
+start_pre() {
+    checkpath -f -m 0640 -o $command_user /var/log/rustdesk-server/hbbr.log
+}

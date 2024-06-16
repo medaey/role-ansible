@@ -1,0 +1,15 @@
+---
+# handlers file for rustdesk
+- name: restart hbbr
+  become: true
+  ansible.builtin.service:
+    name: hbbr
+    enabled: yes
+    state: restarted
+
+- name: restart hbbs
+  become: true
+  ansible.builtin.service:
+    name: hbbs
+    enabled: yes
+    state: restarted

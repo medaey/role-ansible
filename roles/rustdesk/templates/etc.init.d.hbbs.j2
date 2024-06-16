@@ -1,0 +1,21 @@
+#!/sbin/openrc-run
+
+directory="/var/lib/rustdesk"
+description="Serveur Rendezvous RustDesk ID"
+
+command_background="yes"
+pidfile="/var/run/hbbs.pid"
+command="/usr/bin/hbbs"
+command_args="-k _"
+command_user="rustdesk:rustdesk"
+
+output_log="/var/log/rustdesk-server/hbbs.log"
+
+depend() {
+  need localmount
+  use net
+}
+
+start_pre() {
+    checkpath -f -m 0640 -o $command_user /var/log/rustdesk-server/hbbr.log
+}
