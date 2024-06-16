@@ -16,7 +16,7 @@ __ℹ Info : il existe des outils similaires (Chef, Puppet, SaltStack, Fabric, T
 Pour utiliser ce projet, vous devez installer Ansible et les modules de la communauté :
 
 ```bash
-apt install ansible
+sudo apt install ansible
 ansible-galaxy collection install community.general
 ```
 
@@ -34,12 +34,31 @@ Assurez-vous que vos machines cibles sont correctement configurées dans l'inven
 
 ## Gestion des Clés SSH
 
-Avant d'exécuter vos playbooks, assurez-vous que votre clé SSH est ajoutée à l'agent SSH :
+Avant d'exécuter vos playbooks, assurez-vous que votre clé SSH est ajoutée à l'agent SSH. Voici comment vous pouvez gérer différents types de clés SSH :
+
+#### Clés SSH ED25519
+
+Si vous utilisez une clé SSH ED25519, voici comment vous pouvez la gérer :
 
 ```bash
+# Démarrer l'agent SSH
 eval "$(ssh-agent -s)"
+
+# Ajouter votre clé SSH ED25519
 ssh-add ~/.ssh/id_ed25519
 ```
+
+#### Autres Clés SSH (par exemple, SHA)
+Si vous utilisez d'autres types de clés SSH (par exemple, RSA), voici comment vous pouvez les gérer :
+
+```bash
+# Démarrer l'agent SSH
+eval "$(ssh-agent -s)"
+
+# Ajouter votre clé SSH RSA
+ssh-add ~/.ssh/id_rsa
+```
+
 
 Cela permet à Ansible de se connecter aux machines cibles de manière sécurisée.
 
