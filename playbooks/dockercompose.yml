@@ -1,0 +1,9 @@
+---
+- name: Intro to Ansible Playbooks
+  hosts: pi
+  become: yes
+
+  tasks:
+  # Installation docker-compose
+    - name: Installation docker-compose
+      shell: "sudo apt-get install -y libffi-dev libssl-dev python3-dev python3-pip && sudo pip3 install docker-compose; sudo systemctl enable docker && sudo systemctl start docker; docker-compose -v"

@@ -1,0 +1,6 @@
+---
+# vars file for glpi
+glpiVersion: 10.0.2
+mysqlDatabaseName: glpi
+mysqlUser: glpi
+mysqlPassword: glpi

@@ -1,0 +1,56 @@
+Include /etc/ssh/sshd_config.d/*.conf
+
+Port 22
+AddressFamily inet          # Specifies which IP address family sshd should use. (any, inet (IPv4 only), inet6 (IPv6 only)).
+
+ListenAddress 0.0.0.0
+PrintLastLog yes
+
+AcceptEnv LANG LC_*
+KbdInteractiveAuthentication no
+Subsystem       sftp    /usr/lib/openssh/sftp-server
+
+SyslogFacility AUTH
+protocol 2                  # Ensure SSH Protocol is not set to 1
+LogLevel INFO               # Ensure SSH LogLevel is appropriate
+X11Forwarding no            # Ensure SSH X11 forwarding is disabled
+MaxAuthTries 3              # Ensure SSH MaxAuthTries is set to 4 or less
+IgnoreRhosts yes            # Ensure SSH IgnoreRhosts is enabled
+HostbasedAuthentication no  # Ensure SSH HostbasedAuthentication is disabled
+PermitRootLogin yes         # Ensure SSH root login is disabled
+PermitEmptyPasswords no     # Ensure SSH PermitEmptyPasswords is disabled
+PermitUserEnvironment no    # Ensure SSH PermitUserEnvironment is disabled
+LoginGraceTime 60s          # Ensure SSH LoginGraceTime is set to one minute or less
+UsePAM yes                  # Ensure SSH PAM is enabled
+maxsessions 10              # Ensure SSH MaxSessions is set to 4 or less
+AllowTCPForwarding yes      # Ensure SSH AllowTcpForwarding is disabled
+maxstartups 10:30:60        # Ensure SSH MaxStartups is configured
+RekeyLimit 512M 6h          # Ensure SSH RekeyLimit is configured
+StrictModes yes             # Ensure SSH StrictModes is enabled
+IgnoreUserKnownHosts yes    # Ensure SSH IgnoreUserKnownHosts is enabled
+Banner /etc/ssh/banner      # Ensure SSH warning banner is configured
+
+# Ensure sshd ClientAliveInterval and ClientAliveCountMax are configured
+ClientAliveInterval 300
+ClientAliveCountMax 0
+
+# Ensure only strong algorithms are used
+Ciphers chacha20-poly1305@openssh.com,aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr
+MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,hmac-sha2-512,hmac-sha2-256
+KexAlgorithms curve25519-sha256,curve25519-sha256@libssh.org,diffie-hellman-group14-sha256,diffie-hellman-group16-sha512,diffie-hellman-group18-sha512,ecdh-sha2-nistp521,ecdh-sha2-nistp384,ecdh-sha2-nistp256,diffie-hellman-group-exchange-sha256
+
+# Ensure ssh client use only Key Authentication
+PubkeyAuthentication yes
+PasswordAuthentication no
+KerberosAuthentication no
+ChallengeResponseAuthentication no
+GSSAPIAuthentication no
+GSSAPIKeyExchange no
+
+# 99.5.2.3_ssh_disable_features
+AllowAgentForwarding no
+AllowStreamLocalForwarding no
+PermitTunnel no
+PermitUserRC no
+GatewayPorts no
+PrintMotd no

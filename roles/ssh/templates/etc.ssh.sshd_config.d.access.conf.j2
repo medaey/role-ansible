@@ -1,0 +1,8 @@
+# Ensure SSH access is limited
+{% for user in ssh_allowed_users %}
+AllowUsers {{ user }}@{{ hostvars['localhost']['ssh_allowed_public_ip_address'] }} {{ user }}@{{ hostvars['localhost']['ssh_allowed_private_ip_address'] }}
+{% endfor %}
+AllowGroups {% for group in ssh_allowed_users %}{{ group }}{% if not loop.last %} {% endif %}{% endfor %}
+
+DenyUsers nobody
+DenyGroups nobody

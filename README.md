@@ -1,66 +1,85 @@
-Mes rôles ansible pour d'automatiser la mise en place de services.
+# Ansible pour l'Automatisation des Services
 
-# Ansible c'est quoi ?
+## Qu'est-ce qu'Ansible ?
 
-L'on peut voir Ansible comme la suite logique des scripts bash c'est le niveau supérieur de l'automatisation.
+Ansible est un outil d'automatisation qui permet d'installer et de configurer efficacement des machines à travers des recettes écrites en YAML. Il simplifie la gestion des configurations et des déploiements en utilisant SSH et Python.
 
-C'est un outil qui permet d'installer et de configuré une ou plusieurs machines au travers de recettes écrites en Langage YAML. Ces recettes contiennent une série de tâches à exécuter, des conditions, des variables, etc.
+__ℹ Info : il existe des outils similaires (Chef, Puppet, SaltStack, Fabric, Terraform)__
+## Avantages d'Ansible
 
-L'une des forces d'Ansible et qui n'a besoin que de ssh et python3 pour pouvoir fonctionner.
+- **Simplicité** : Écrit en YAML, facile à apprendre et à lire.
+- **Homogénéité** : Uniformise la configuration des machines.
+- **Versatilié** : Utilise uniquement SSH et Python.
 
-Bref, Ansible permet d'installer, configuré de magniére homogène une machine, des services ou toute une architecture en un temps-record !!
+## Prérequis
 
-ℹ Info : il existe des outils similaires (Chef, Puppet, SaltStack, Fabric, Terraform)
+Pour utiliser ce projet, vous devez installer Git, Ansible et les modules de la communauté ansible-galaxy :
 
-source : https://www.ansible.com/
-
-
-## Introduction
-Ce dépôt github est ma vision de l'utilisation d'ansible à savoir respecter l'arborescence standardisée par ansible-galaxy, mais revisiter afin de tenir compte des environnements Linux utilisant plusieurs types des distributions.
-
-### Exemple d'Utilisation:
-`ansible-playbook lamp.yml -i inventory`
-Cette commande lance le rôle lamp sur les machines listées dans le fichier d'inventaire (inventory). Cela implique que les machines cibles doivent être définies dans le fichier inventory et appartenir au groupe lamp.
-
-#### Crée un nouveau role
-Dupliquer et renomer le fichier `exemple.yml` a la racine portant par exemple toto.yml, puis crée un dossier afin de recevoir les role en fonction des distribution
 ```bash
-cp exemple.yml toto.yml
-mkdir toto
-cd toto
-ansible-galaxy role init toto-debian
-ansible-galaxy role init toto-alpine
-ansible-galaxy role init toto-redhat
+sudo apt install ansible git
+ansible-galaxy collection install community.general
+git clone https://github.com/medaey/role-ansible.git
+cd role-ansible/
+```
+Assurez-vous d'adapter ces commandes selon votre distribution Linux (par exemple, utilisez `yum` pour CentOS/RHEL).
+
+## Exemple d'Utilisation
+
+Avant tout je vous invite a regarer et modifier le contenu du dossier `inventories`, ce dossier contient les machines qui seront administrer via ansible.
+Pour exécuter le rôle `my-tools` sur les machines définies dans votre fichier d'inventaire :
+
+```bash
+ansible-playbook playbooks/my-tools.yml
 ```
 
-Il vous restera a crée un groupe portant le même nom que le fichier `.yml` dans le fichier inventaire `inventory`
-```ini
-[toto]
-120 ansible_host=120.local ansible_user=root
-121 ansible_host=121.local ansible_user=root
+Assurez-vous que vos machines cibles sont correctement configurées dans l'inventaire et qu'elles appartiennent au groupe correspondant au rôle `my-tools`.
+
+## Gestion des Clés SSH
+
+Avant d'exécuter vos playbooks, assurez-vous que votre clé SSH est ajoutée à l'agent SSH. Voici comment vous pouvez gérer différents types de clés SSH :
+
+#### Clés SSH ED25519
+
+Si vous utilisez une clé SSH ED25519, voici comment vous pouvez la gérer :
+
+```bash
+# Démarrer l'agent SSH
+eval "$(ssh-agent -s)"
+
+# Ajouter votre clé SSH ED25519
+ssh-add ~/.ssh/id_ed25519
 ```
 
-Il vous reste simplement à ajuster les fichiers tasks/main.yml en fonction de la distribution choisie, en utilisant la structure de rôle que vous venez de créer avec Ansible Galaxy. Cette structure prend en compte les variables, les templates, les handlers, etc.
+#### Autres Clés SSH (par exemple, SHA)
+Si vous utilisez d'autres types de clés SSH (par exemple, RSA), voici comment vous pouvez les gérer :
 
+```bash
+# Démarrer l'agent SSH
+eval "$(ssh-agent -s)"
 
-
-Comment organiser vos rôles, comment les structurer pour différentes distributions, et comment les exécuter en utilisant le fichier `.yml` ?
-
-### Structure des Rôles:
-Chaque rôle est structuré avec un fichier .yml à la racine du rôle (par exemple, lamp.yml). Il existe également un répertoire associé au rôle (par exemple, `lamp/`) qui contient plusieurs sous-répertoires spécifiques à différentes distributions (par exemple, `lamp-debian/` et `lamp-alpine/`).
-```
-├── lamp.yml
-└── lamp/
-    ├── lamp-debian/
-    │   └── tasks/
-    │       └── main.yml
-    └── lamp-alpine/
-        └── tasks/
-            └── main.yml
+# Ajouter votre clé SSH RSA
+ssh-add ~/.ssh/id_rsa
 ```
 
-### Utilisation du Fichier .yml
-Le fichier `.yml` à la racine du rôle est utilisé pour lancer le rôle. Ce fichier utilise des variables, et leur fonctionnement est basé sur le nom du fichier pour déterminer le répertoire et les sous-répertoires et tasks à appeler pour effectuer l'installation.
 
-### Variables:
-Les variables utilisées dans le fichier `.yml` contiennent des informations spécifiques au rôle, telles que des configurations, des chemins, etc. Il est précisé dans ces variables que le rôle ne sera appliqué qu'aux machines présentes dans le fichier d'inventaire (inventory) et faisant partie du groupe portant le même nom que le fichier `.yml`. Cela permet de cibler spécifiquement les machines sur lesquelles vous souhaitez appliquer ce rôle.
+Cela permet à Ansible de se connecter aux machines cibles de manière sécurisée.
+
+## Création de Nouveaux Rôles
+
+Pour créer un nouveau rôle Ansible à l'aide du script `create_role.sh` :
+
+```bash
+chmod +x create_role.sh
+./create_role.sh <nom_du_role>
+```
+
+Le script `create_role.sh` génère une structure de rôle standard conforme aux bonnes pratiques d'Ansible.
+
+---
+
+En suivant ces instructions, votre projet Ansible sera prêt à automatiser efficacement la mise en place de services sur vos infrastructures.
+
+---
+
+### Source
+- [Ansible](https://www.ansible.com/)

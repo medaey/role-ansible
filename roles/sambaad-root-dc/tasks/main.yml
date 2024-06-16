@@ -1,0 +1,176 @@
+---
+####################################################
+##        Installer et configurer Samba-AD        ##
+####################################################
+- name: Download Tissamba GPG key
+  get_url:
+    url: http://samba.tranquil.it/tissamba-pubkey.gpg
+    dest: /etc/apt/trusted.gpg.d/tissamba-keyring.gpg
+
+- name: Configurer le dépôt apt pour Samba
+  copy:
+    content: "deb https://samba.tranquil.it/debian/samba-{{ samba_version }}/ {{ ansible_distribution_release }} main"
+    dest: /etc/apt/sources.list.d/tissamba.list
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Installer les paquets Samba et dépendances
+  apt:
+    name:
+      - samba
+      - winbind
+      - libnss-winbind
+      - krb5-user
+      - smbclient
+      - ldb-tools
+      - python3-crypto
+    state: present
+  ignore_errors: yes
+  
+
+
+####################################################
+##              Configurer Kerberos               ##
+####################################################
+- name: Configurer Kerberos
+  template:
+    src: etc.krb5.conf.j2
+    dest: /etc/krb5.conf
+    owner: root
+    group: root
+    mode: '0644'
+
+####################################################
+##                Configurer Samba                ##
+####################################################
+- name: Supprimer le fichier smb.conf
+  file:
+    path: /etc/samba/smb.conf
+    state: absent
+
+- name: Configurer Samba avec le rôle de contrôleur de domaine
+  command: samba-tool domain provision --realm={{ realm|upper }} --domain={{ domain|upper }} --server-role=dc --adminpass={{ admin_password }}
+
+- name: Reconfigurer la résolution DNS
+  template:
+    src: etc.resolv.conf.j2
+    dest: /etc/resolv.conf
+
+- name: Supprimer le fichier krb5.conf
+  file:
+    path: /var/lib/samba/private/krb5.conf
+    state: absent
+
+- name: Créer un lien symbolique vers krb5.conf
+  file:
+    src: /etc/krb5.conf
+    dest: /var/lib/samba/private/krb5.conf
+    state: link
+
+- name: Unmask samba-ad-dc service
+  command: systemctl unmask samba-ad-dc
+  changed_when: false
+
+- name: Enable samba-ad-dc service
+  command: systemctl enable samba-ad-dc
+  changed_when: false
+
+- name: Disable samba winbind nmbd smbd service
+  command: systemctl disable samba winbind nmbd smbd
+  changed_when: false
+
+- name: Mask samba winbind nmbd smbd service
+  command: systemctl mask samba winbind nmbd smbd
+  changed_when: false
+
+- name: Reboot the system
+  reboot:
+    reboot_timeout: 300
+    pre_reboot_delay: 10
+    post_reboot_delay: 30
+
+####################################################
+## Installer et configurer Bind-DLZ pour Samba-AD ##
+####################################################
+- name: Installer le paquet Bind
+  apt:
+    name: bind9
+    state: present
+  ignore_errors: yes
+
+- name: Modifier le fichier named.conf.options
+  template:
+    src: etc.bind.named.conf.options.j2
+    dest: /etc/bind/named.conf.options
+
+- name: Modifier le fichier named.conf.options
+  template:
+    src: etc.bind.named.conf.options.j2
+    dest: /etc/bind/named.conf.options
+
+- name: Modifier le fichier named.conf.options
+  template:
+    src: etc.bind.named.conf.local.j2
+    dest: /etc/bind/named.conf.local
+
+- name: Modifier le fichier etc.default.bind9
+  template:
+    src: etc.default.bind9.j2
+    dest: /etc/default/bind9
+
+- name: Modifier le fichier etc.samba.smb.conf
+  template:
+    src: etc.samba.smb.conf.j2
+    dest: /etc/samba/smb.conf
+
+- name: Créer les répertoires dans /var/lib/samba
+  file:
+    path: "/var/lib/samba/bind-dns/dns"
+    state: directory
+    recurse: yes
+    mode: '0755'
+
+- name: Configurer les mises à jour dynamiques des entrées DNS
+  command: samba_upgradedns --dns-backend=BIND9_DLZ
+
+- name: Redémarrer le service Samba AD DC
+  service:
+    name: samba-ad-dc
+    state: restarted
+  ignore_errors: yes
+
+- name: Redémarrer le service Bind9
+  service:
+    name: bind9
+    state: restarted
+
+##########################################################
+## Installer et configurer NTP pour Samba-AD sur Debian ##
+##########################################################
+- name: Installer les paquets NTP
+  apt:
+    name:
+      - ntpdate
+      - ntp
+    state: present
+
+- name: Ajouter les lignes à /etc/ntp.conf
+  lineinfile:
+    path: /etc/ntp.conf
+    line: "{{ item }}"
+    insertafter: EOF
+  with_items:
+    - "ntpsigndsocket /var/lib/samba/ntp_signd"
+    - "restrict default mssntp"
+
+- name: Changer le propriétaire du répertoire ntp_signd
+  file:
+    path: /var/lib/samba/ntp_signd
+    owner: ntp
+    group: ntp
+
+- name: Redémarrer le service NTP
+  service:
+    name: ntp
+    state: restarted

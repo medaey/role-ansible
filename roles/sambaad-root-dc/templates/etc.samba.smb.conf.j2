@@ -1,0 +1,16 @@
+# Global parameters
+[global]
+        server services = -dns
+        dns forwarder = {{ dns_forwarder }}
+        netbios name = {{ inventory_hostname }}
+        realm = {{ realm|upper }}
+        server role = active directory domain controller
+        workgroup = {{ domain|upper }}
+
+[netlogon]
+        path = /var/lib/samba/sysvol/{{ realm }}/scripts
+        read only = No
+        
+[sysvol]
+        path = /var/lib/samba/sysvol
+        read only = No

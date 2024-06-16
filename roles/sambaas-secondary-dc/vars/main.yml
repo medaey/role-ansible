@@ -1,0 +1,4 @@
+---
+realm: mydomain.lan 
+domain: mydomain
+ip_sambaad_root_dc: 192.168.1.110

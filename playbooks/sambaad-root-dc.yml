@@ -1,0 +1,5 @@
+---
+- hosts: sambaad-root-dc
+  become: yes
+  roles:
+    - sambaad-root-dc

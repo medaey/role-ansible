@@ -1,0 +1,20 @@
+# roles/ssh/tasks/main.yml
+---
+
+- name: Inclure les tâches spécifiques pour les autres distributions
+  include_tasks: setup-{{ ansible_os_family }}-{{ ansible_distribution_version }}.yml
+  when: ansible_distribution != 'Alpine'
+
+- name: Inclure les tâches spécifiques pour Alpine
+  include_tasks: setup-{{ ansible_os_family }}-{{ ansible_distribution_version.split('.')[:2] | join('.') }}.yml
+  when: ansible_distribution == 'Alpine'
+
+# - name: Create a user 'johnd' with a home directory
+#   ansible.builtin.user:
+#     name: sysadmin
+#     create_home: yes
+
+- name: restart sshd
+  service:
+    name: sshd
+    state: restarted

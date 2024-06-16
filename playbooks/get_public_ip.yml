@@ -1,0 +1,41 @@
+# playbooks/advanced_ssh_configuration.yml
+---
+- name: Obtenir adresses IP locales
+  hosts: localhost
+  gather_facts: false
+  tasks:
+    - name: Obtenir l'adresse IP publique
+      uri:
+        url: https://api.ipify.org?format=json
+        method: GET
+        timeout: 10
+      register: public_ip
+      until: public_ip.status == 200
+      retries: 6
+      delay: 10
+      changed_when: false
+
+    - name: Définir la variable ssh_allowed_public_ip_address
+      set_fact:
+        ssh_allowed_public_ip_address: "{{ public_ip.json.ip }}"
+
+    - name: Obtenir l'adresse IP privée du maître Ansible
+      shell: hostname -I | awk '{print $1}'
+      register: private_ip_output
+      changed_when: false
+
+    - name: Définir la variable ssh_allowed_private_ip_address
+      set_fact:
+        ssh_allowed_private_ip_address: "{{ private_ip_output.stdout.strip() }}"
+
+    - name: Afficher l'adresse IP publique
+      debug:
+        msg: "IP publique: {{ ssh_allowed_public_ip_address }}"
+
+    - name: Afficher l'adresse IP privée
+      debug:
+        msg: "IP privée: {{ ssh_allowed_private_ip_address }}"
+
+    # - name: Afficher ssh user
+    #   debug:
+    #     msg: "SSH user : {{ remote_user }}"
