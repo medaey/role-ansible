@@ -8,7 +8,7 @@
   when: ansible_facts['os_family'] == "Debian"
 
 # Add Firewall rule
-- name: "SQUID - configuration for Alpine os family"
+- name: "SQUID - configuration for Debian os family"
   block:
     - name: Régle du Firewall pour ssh
       community.general.ufw:
@@ -18,15 +18,11 @@
 
     - name: Régle du Firewall pour squid
       community.general.ufw:
-        rule: allow 
-        name: squid
+        rule: allow
+        port: '3128'
+        proto: tcp
         state: enabled
-
-# Configuration du proxy
-- name: Configuration de squid
-  ansible.builtin.template:
-    src: ./templates/*
-    dest: /etc/squid/squid.conf
-    owner: root
-    group: root
-    mode: '0644'
+  become: true
+  ignore_errors: true
+  notify: restart Squid
+  when: ansible_facts['os_family'] == "Debian"

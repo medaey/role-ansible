@@ -18,8 +18,9 @@
 
     - name: Régle du Firewall pour squid
       community.general.ufw:
-        rule: allow 
-        name: squid
+        rule: allow
+        port: '3128'
+        proto: tcp
         state: enabled
 
 - name: "SQUID - configuration for Alpine os family"
@@ -35,5 +36,5 @@
         - { src: "etc.squid.squid.conf.j2", dest: "/etc/squid/squid.conf", mode: "0644" }
   become: true
   ignore_errors: true
-  notify: restart squid
+  notify: restart Squid
   when: ansible_facts['os_family'] == "Alpine"
