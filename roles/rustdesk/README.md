@@ -1,38 +1,10 @@
-Role Name
-=========
+## Ansible Role: RUSTDESK
+Ce rôle Ansible installe et configure un serveur Rustdesk, un outil de prise en main à distance auto-hébergé.
 
-A brief description of the role goes here.
+Rustdesk est une solution de prise en main à distance auto-hébergée, comparable à des outils comme UltraVNC ou TeamViewer. Ce rôle Ansible simplifie le déploiement et la configuration d’un serveur Rustdesk, y compris la gestion des clés pour l’authentification des connexions.
 
-Requirements
-------------
-
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
-
-Role Variables
---------------
-
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
-
-Dependencies
-------------
-
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
-
-Example Playbook
-----------------
-
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
-
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
-
-License
--------
-
-BSD
-
-Author Information
-------------------
-
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+### Fonctionnalités
+  - Installation de Rustdesk : Télécharge et installe la version spécifiée de Rustdesk.
+  - Configuration : Génère les clés SSH nécessaires et configure le serveur.
+  - Service : Crée et gère les service `hbbr` et `hbbs` Rustdesk.
+  - Sécurité : La clé publique est générée et stockée pour l’authentification dans `/var/lib/rustdesk/id_ed25519.pub`.
