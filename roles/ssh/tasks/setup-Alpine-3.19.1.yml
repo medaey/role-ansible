@@ -6,6 +6,18 @@
     state: latest
     update_cache: true
 
+- name: Vérifier si le répertoire /etc/ssh/sshd_config.d existe
+  stat:
+    path: /etc/ssh/sshd_config.d
+  register: sshd_config_d
+
+- name: Créer le répertoire /etc/ssh/sshd_config.d
+  file:
+    path: /etc/ssh/sshd_config.d
+    state: directory
+    mode: '0755'
+  when: not sshd_config_d.stat.exists
+
 - name: "SSH - configuration for Alpine os family"
   block:
     - name: "SSH - Configuration de sshd"
