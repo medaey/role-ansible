@@ -1,4 +1,0 @@
----
-# vars file for file for bind-debian
-dnsName: cossu.lan 
-forwardDns: 8.8.8.8

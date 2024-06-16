@@ -1,0 +1,32 @@
+---
+# Installation des paquets
+- name: Installation des PAQUETS
+  ansible.builtin.apt:
+    pkg: [squid, ufw, rsync]
+    update_cache: yes
+    state: latest
+  when: ansible_facts['os_family'] == "Debian"
+
+# Add Firewall rule
+- name: "SQUID - configuration for Alpine os family"
+  block:
+    - name: Régle du Firewall pour ssh
+      community.general.ufw:
+        rule: allow
+        name: ssh
+        state: enabled
+
+    - name: Régle du Firewall pour squid
+      community.general.ufw:
+        rule: allow 
+        name: squid
+        state: enabled
+
+# Configuration du proxy
+- name: Configuration de squid
+  ansible.builtin.template:
+    src: ./templates/*
+    dest: /etc/squid/squid.conf
+    owner: root
+    group: root
+    mode: '0644'
