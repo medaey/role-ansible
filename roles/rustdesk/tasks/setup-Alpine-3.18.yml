@@ -1,0 +1,91 @@
+---
+- name: Installation des PAQUETS
+  community.general.apk:
+    name: [unzip]
+    state: latest
+    update_cache: true
+  when: ansible_distribution == "Alpine"
+
+- name: Créer le groupe rustdesk si inexistant
+  group:
+    name: rustdesk
+    state: present
+
+- name: Créer l'utilisateur rustdesk
+  ansible.builtin.user:
+    name: rustdesk
+    group: rustdesk
+
+- name: Créer les répertoires nécessaires
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: rustdesk
+    group: rustdesk
+    mode: '0755'
+  with_items:
+    - /var/lib/rustdesk
+    - /tmp/rustdesk
+    - /tmp/rustdesk/amd64
+    - /var/log/rustdesk-server
+
+- name: Télécharger et extraire rustdesk-server
+  ansible.builtin.get_url:
+    url: "https://github.com/rustdesk/rustdesk-server/releases/latest/download/rustdesk-server-linux-amd64.zip"
+    dest: /tmp/rustdesk/rustdesk-server-linux-amd64.zip
+
+- name: Décompresser rustdesk-server
+  unarchive:
+    src: /tmp/rustdesk/rustdesk-server-linux-amd64.zip
+    dest: /tmp/rustdesk
+    remote_src: yes
+
+- name: Déplacer les exécutables vers /usr/bin
+  copy:
+    src: /tmp/rustdesk/amd64/{{ item }}
+    dest: /usr/bin
+    owner: root
+    group: root
+    mode: '0755'
+    remote_src: yes
+  with_items:
+    - hbbr
+    - hbbs
+
+- name: "RUSTDESK - copie des services rustdesk"
+  block:
+    - name: "RUSTDESK - Création des service Rustdesk"
+      ansible.builtin.template:
+        src: "{{ role_path }}/templates/{{ item.src }}"
+        dest: "{{ item.dest }}"
+        mode: "{{ item.mode }}"
+        owner: root
+        group: root
+      loop:
+        - { src: "etc.init.d.hbbr.j2", dest: "/etc/init.d/hbbr", mode: "0755" }
+        - { src: "etc.init.d.hbbs.j2", dest: "/etc/init.d/hbbs", mode: "0755" }
+
+    - name: Ajouter hbbs à rc-update
+      ansible.builtin.command: rc-update add hbbs
+
+    - name: Ajouter hbbr à rc-update
+      ansible.builtin.command: rc-update add hbbr
+      
+  become: true
+  ignore_errors: true
+  notify:
+    - restart hbbr
+    - restart hbbs
+  when: ansible_distribution == "Alpine"
+
+- name: Vérifier le répertoire /var/lib/rustdesk
+  stat:
+    path: /var/lib/rustdesk
+
+- name: Afficher la clé publique ID_ED25519
+  command: cat /var/lib/rustdesk/id_ed25519.pub
+  register: id_ed25519_pub
+
+- name: Afficher la clé publique
+  debug:
+    msg: "Votre clé publique est {{ id_ed25519_pub.stdout }}"
