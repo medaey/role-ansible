@@ -1,10 +1,36 @@
 ---
 - name: Installation des PAQUETS
   community.general.apk:
-    name: [unzip]
+    name: [unzip, ufw]
     state: latest
     update_cache: true
   when: ansible_distribution == "Alpine"
+
+- name: "RUSTDESK - Regle du par feu"
+  block:
+    - name: Allow port 22
+      community.general.ufw:
+        rule: allow
+        port: '22'
+        proto: tcp
+
+    - name: Allow port range 21115:21119
+      community.general.ufw:
+        rule: allow
+        port: 21115:21119
+        proto: tcp
+
+    - name: Allow port 8000
+      community.general.ufw:
+        rule: allow
+        port: '8000'
+        proto: tcp
+
+    - name: Allow port 21116
+      community.general.ufw:
+        rule: allow
+        port: '21116'
+        proto: udp
 
 - name: Créer le groupe rustdesk si inexistant
   group:
