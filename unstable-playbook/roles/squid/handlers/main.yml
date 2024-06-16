@@ -1,0 +1,15 @@
+---
+# handlers file for squid
+- name: restart squid
+  become: true
+  ansible.builtin.service:
+    name: squid
+    enabled: yes
+    state: restarted
+
+- name: reload squid
+  become: true
+  ansible.builtin.service:
+    name: squid
+    enabled: yes
+    state: reloaded

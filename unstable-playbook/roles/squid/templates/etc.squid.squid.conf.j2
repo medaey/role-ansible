@@ -1,0 +1,19 @@
+# Changer la taille du cache de squid, changer la valeur 100 par ce que vous voulez (valeur en Mo)
+cache_dir ufs /var/spool/squid 100 16 256
+
+#################################### ACL ####################################
+
+acl deny_domain url_regex -i "/etc/squid/denydomain"    # Déclarer un fichier qui contient les domaines à bloquer
+acl all src all                                             # ACL pour autoriser/refuser tous les réseaux (Source = All) – ACL obligatoire
+acl Safe_ports port 80                                      # Port HTTP = Port 'sure'
+acl Safe_ports port 443                                     # Port HTTPS = Port 'sure'
+acl Safe_ports port 21                                      # Port FTP = Port 'sure'
+############################################################################
+
+# Autoriser tout les connexion sauf les domaines déclarés dans l'ACL deny_domain
+# deny = refuser ; ! = sauf ; deny_domain = nom de l’ACL à laquelle on fait référence.
+http_access allow !deny_domain
+
+# Port utilisé par le Proxy :
+# Le port indiqué ici, devra être celui qui est précisé dans votre navigateur.
+http_port 3128

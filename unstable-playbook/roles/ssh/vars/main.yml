@@ -1,0 +1,6 @@
+---
+# vars file for ssh
+ssh_allowed_users:
+  - root
+  - sysadmin
+  - medaey

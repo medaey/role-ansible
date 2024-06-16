@@ -1,0 +1,45 @@
+---
+# Installation des paquets
+- name: Installation des PAQUETS
+  ansible.builtin.apt:
+    pkg: [squid, ufw, rsync]
+    update_cache: yes
+    state: latest
+  when: ansible_facts['os_family'] == "Debian"
+
+# Add Firewall rule
+- name: "SQUID - configuration for Debian os family"
+  block:
+    - name: Régle du Firewall pour ssh
+      community.general.ufw:
+        rule: allow
+        name: ssh
+        state: enabled
+
+    - name: Régle du Firewall pour squid
+      community.general.ufw:
+        rule: allow
+        port: '3128'
+        proto: tcp
+        state: enabled
+  become: true
+  ignore_errors: true
+  notify: restart squid
+  when: ansible_facts['os_family'] == "Debian"
+
+- name: "SQUID - configuration for Alpine os family"
+  block:
+    - name: "SQUID - Configuration de squid"
+      ansible.builtin.template:
+        src: "{{ role_path }}/templates/{{ item.src }}"
+        dest: "{{ item.dest }}"
+        mode: "{{ item.mode }}"
+        owner: root
+        group: root
+      loop:
+        - { src: "etc.squid.squid.conf.j2", dest: "/etc/squid/squid.conf", mode: "0644" }
+        - { src: "etc.squid.denydomain.j2", dest: "/etc/squid/denydomain", mode: "0644" }
+  become: true
+  ignore_errors: true
+  notify: restart squid
+  when: ansible_facts['os_family'] == "Debian"
