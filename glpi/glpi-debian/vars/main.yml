@@ -1,6 +1,0 @@
----
-# vars file for glpi-debian
-glpiVersion: 9.5.7
-mysqlDatabaseName: glpi
-mysqlUser: glpi
-mysqlPassword: glpi

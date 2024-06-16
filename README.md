@@ -13,19 +13,17 @@ __ℹ Info : il existe des outils similaires (Chef, Puppet, SaltStack, Fabric, T
 
 ## Prérequis
 
-Pour utiliser ce projet, vous devez installer Git, Ansible et les modules de la communauté ansible-galaxy :
+Pour utiliser ce projet, vous devez installer Ansible et les modules de la communauté :
 
 ```bash
-sudo apt install ansible git
+sudo apt install ansible
 ansible-galaxy collection install community.general
-git clone https://github.com/medaey/role-ansible.git
-cd role-ansible/
 ```
+
 Assurez-vous d'adapter ces commandes selon votre distribution Linux (par exemple, utilisez `yum` pour CentOS/RHEL).
 
 ## Exemple d'Utilisation
 
-Avant tout je vous invite a regarer et modifier le contenu du dossier `inventories`, ce dossier contient les machines qui seront administrer via ansible.
 Pour exécuter le rôle `my-tools` sur les machines définies dans votre fichier d'inventaire :
 
 ```bash

@@ -1,9 +1,0 @@
-zone "{{ dnsName }}" {
-   type master;
-   file "/etc/bind/db.{{ dnsName }}";
-};
-
-zone "{{  hostvars[inventory_hostname]['ansible_default_ipv4']['address'].split(".")[2] | lower }}.{{  hostvars[inventory_hostname]['ansible_default_ipv4']['address'].split(".")[1] | lower }}.{{  hostvars[inventory_hostname]['ansible_default_ipv4']['address'].split(".")[0] | lower }}.in-addr.arpa" {
-   type master;
-   file "/etc/bind/db.{{ dnsName }}.reverse.in-addr.arpa";
-};
