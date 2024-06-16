@@ -1,0 +1,5 @@
+---
+- hosts: rustdesk
+  become: yes
+  roles:
+    - rustdesk
