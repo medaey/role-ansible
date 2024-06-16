@@ -1,0 +1,7 @@
+# playbooks/my_tools.yml
+---
+- name: Installer des outils système
+  hosts: my_tools  # Ou spécifiez les hôtes ou les groupes d'hôtes cibles
+  become: yes  # Si nécessaire
+  roles:
+    - my_tools

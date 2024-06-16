@@ -27,13 +27,13 @@ Assurez-vous d'adapter ces commandes selon votre distribution Linux (par exemple
 ## Exemple d'Utilisation
 
 Avant tout je vous invite a regarer et modifier le contenu du dossier `inventories`, ce dossier contient les machines qui seront administrer via ansible.
-Pour exécuter le rôle `my-tools` sur les machines définies dans votre fichier d'inventaire :
+Pour exécuter le rôle `my_tools` sur les machines définies dans votre fichier d'inventaire :
 
 ```bash
-ansible-playbook playbooks/my-tools.yml
+ansible-playbook playbooks/my_tools.yml
 ```
 
-Assurez-vous que vos machines cibles sont correctement configurées dans l'inventaire et qu'elles appartiennent au groupe correspondant au rôle `my-tools`.
+Assurez-vous que vos machines cibles sont correctement configurées dans l'inventaire et qu'elles appartiennent au groupe correspondant au rôle `my_tools`.
 
 ## Gestion des Clés SSH
 

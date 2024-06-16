@@ -1,4 +1,4 @@
-## Ansible Role: MY-TOOLS
+## Ansible Role: my_tools
 Ce rôle Ansible simplifie l'installation d'un ensemble d'outils utilitaires essentiels pour l'administration système.
 
 ## Fonctionnalités

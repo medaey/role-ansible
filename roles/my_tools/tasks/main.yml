@@ -1,5 +1,5 @@
 ---
-# tasks file for my-tools
+# tasks file for my_tools
 - name: Installation des PAQUETS
   community.general.apk:
     name: [mc, tree, net-tools, htop, neofetch, wget, ufw, ncdu, nmap]
