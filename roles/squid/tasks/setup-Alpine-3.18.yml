@@ -34,6 +34,7 @@
         group: root
       loop:
         - { src: "etc.squid.squid.conf.j2", dest: "/etc/squid/squid.conf", mode: "0644" }
+        - { src: "etc.squid.denydomain.j2", dest: "/etc/squid/denydomain", mode: "0644" }
   become: true
   ignore_errors: true
   notify: restart squid
