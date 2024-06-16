@@ -1,5 +1,4 @@
 ## Ansible Role: SSH
-
 Ce rôle Ansible est utilisé pour configurer le service SSH sur des machines cibles en appliquant une configuration sécurisée.
 
 ### Fonctionnalités
