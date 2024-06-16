@@ -1,0 +1,21 @@
+---
+# tasks file for squid-debian
+- name: Installation des PAQUETS
+  apt:
+    pkg: [squid, ufw, rsync]
+    update_cache: yes
+    state: latest
+
+# Installer du par feu
+- name: Régle du Firewall pour ssh
+  ufw: rule=allow name=ssh state=enabled
+
+- name: Régle du Firewall pour squid
+  ufw: rule=allow name=squid state=enabled
+
+# Configuration du proxy
+- name: Configuration de squid
+  template: src=./templates/* dest=/etc/squid/squid.conf owner=root group=root mode='0644'
+
+- name: Activation & Redémarrage du services squid
+  systemd: state=restarted name=squid enabled=yes masked=no

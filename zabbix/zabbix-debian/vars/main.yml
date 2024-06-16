@@ -1,0 +1,5 @@
+---
+# vars file for zabbix-debian
+mysqlDatabaseName: zabbix
+mysqlUser: zabbix
+mysqlPassword: zabbix

@@ -1,0 +1,27 @@
+{
+    "production": {
+        "domain": "{{ domain }}",
+        "port": 80,
+        "urlAddPort": true,
+        "allowEmailRegister": true,
+        "allowAnonymous": false,
+        "allowGravata": false,
+        "forbiddenNoteIDs": [
+            "robots.txt",
+            "favicon.ico",
+            "api",
+            "build",
+            "css",
+            "docs",
+            "fonts",
+            "js",
+            "uploads",
+            "vendor",
+            "views"
+        ],
+        "db": {
+            "dialect": "sqlite",
+            "storage": "./db.hedgedoc.sqlite"
+        }
+    }
+}

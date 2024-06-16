@@ -1,0 +1,10 @@
+$TTL    604800
+@       IN      SOA     dns.{{ dnsName }}. admin.{{ dnsName }} (
+                   {{ansible_date_time.year}}{{ansible_date_time.month}}{{ansible_date_time.day}}    ; Numero de serie AnneMoisJour
+                   604800      ; Temps de rafraichissement
+                   86400       ; Temps entre les essais
+                   2419200     ; Temps expiration
+                   604800 )    ; Valeur TTL minimum
+
+@       IN      NS     dns.{{ dnsName }}.
+{{  hostvars[inventory_hostname]['ansible_default_ipv4']['address'].split(".")[-1] | lower }}     IN      PTR    dns.{{ dnsName }}.

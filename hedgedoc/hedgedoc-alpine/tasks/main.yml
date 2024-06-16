@@ -1,0 +1,15 @@
+---
+# tasks file for hedgedoc-alpine
+  - name: Install des prerequis
+    apk:
+     name: [ npm, sqlite, yarn ]
+     update_cache: true
+     state: present
+
+
+# Installation manuel
+  #wget https://github.com/hedgedoc/hedgedoc/releases/download/1.9.9/hedgedoc-1.9.9.tar.gz
+  #tar -xzvf hedgedoc-1.9.9.tar.gz
+  #cd hedgedoc/
+  #nano config.json
+  #cd "hedgedoc" && yarn install --immutable && yarn build && NODE_ENV=production yarn start

@@ -1,0 +1,49 @@
+---
+# tasks file for minecraft-alpine
+  - name: Install les packages prerequis
+    apk:
+     name: [ openjdk17-jre, wget, screen, nano ]
+     update_cache: true
+     state: present
+
+  - name: Add the user minecraft
+    user:
+      name: minecraft
+      shell: /bin/ash
+      password: "{{ minecraftPassword | password_hash('sha512') }}"
+      state: present
+      createhome: yes
+
+  - name: Acceptation de la license
+    copy:
+      src: ./files/eula.txt
+      dest: /home/minecraft/eula.txt
+      owner: minecraft
+      group: minecraft
+      mode: '0644'
+
+  - name: Acceptation de la license
+    copy:
+      src: ./files/{{ paperFile }}
+      dest: /home/minecraft/{{ paperFile }}
+      owner: minecraft
+      group: minecraft
+      mode: '0644'
+
+  # Copy start.sh
+  - name: Copy start.sh
+    template:
+      src: ./templates/start.sh.j2
+      dest: /home/minecraft/start.sh
+      owner: minecraft
+      group: minecraft
+      mode: '755'
+
+  # Copy startserver.sh
+  - name: Copy startserver.sh.sh
+    template:
+      src: ./templates/startserver.sh.j2
+      dest: /home/minecraft/startserver.sh
+      owner: minecraft
+      group: minecraft
+      mode: '755'
