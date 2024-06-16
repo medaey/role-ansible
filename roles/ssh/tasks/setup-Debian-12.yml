@@ -5,6 +5,7 @@
     name: [openssh-server]
     update_cache: yes
     state: latest
+  when: ansible_facts['os_family'] == "Debian"
 
 - name: Vérifier si le répertoire /etc/ssh/sshd_config.d existe
   stat:
