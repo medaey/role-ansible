@@ -23,7 +23,7 @@ PermitUserEnvironment no    # Ensure SSH PermitUserEnvironment is disabled
 LoginGraceTime 60s          # Ensure SSH LoginGraceTime is set to one minute or less
 UsePAM yes                  # Ensure SSH PAM is enabled
 maxsessions 10              # Ensure SSH MaxSessions is set to 4 or less
-AllowTCPForwarding yes      # Ensure SSH AllowTcpForwarding is disabled
+AllowTCPForwarding no       # Ensure SSH AllowTcpForwarding is disabled
 maxstartups 10:30:60        # Ensure SSH MaxStartups is configured
 RekeyLimit 512M 6h          # Ensure SSH RekeyLimit is configured
 StrictModes yes             # Ensure SSH StrictModes is enabled
