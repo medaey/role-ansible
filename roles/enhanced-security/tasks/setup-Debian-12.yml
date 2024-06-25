@@ -217,3 +217,12 @@
         group: root
         mode: '0700'
       when: cron_permissions == true
+
+    - name: Modify /etc/cron.allow permissions if necessary
+      ansible.builtin.file:
+        path: /etc/cron.allow
+        state: directory
+        owner: root
+        group: root
+        mode: '0640'
+      when: cron_permissions == true
