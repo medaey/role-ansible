@@ -27,4 +27,17 @@ cat << EOF > playbooks/$role_name.yml
     - $role_name
 EOF
 
+
+# Création du fichier main.yml associé au playbooks
+cat << EOF > roles/$role_name/tasks/main.yml
+---
+- name: Inclure les tâches spécifiques pour les autres distributions
+  include_tasks: setup-{{ ansible_os_family }}-{{ ansible_distribution_version }}.yml
+  when: ansible_distribution != "Alpine"
+
+- name: Inclure les tâches spécifiques pour Alpine
+  include_tasks: setup-{{ ansible_os_family }}-{{ ansible_distribution_version.split('.')[:2] | join('.') }}.yml
+  when: ansible_distribution == "Alpine"
+EOF
+
 echo "- Playbook $role_name.yml created on playbooks folder"
