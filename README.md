@@ -34,10 +34,14 @@ ansible-playbook playbooks/my_tools.yml
 ```
 
 Assurez-vous que vos machines cibles sont correctement configurées dans l'inventaire et qu'elles appartiennent au groupe correspondant au rôle `my_tools`.
+Vous pouvez toujour effectuer un ping sur vos machines pour vérifier quelle soit bien disponible.
+```bash
+ansible all -m ping
+```
 
 ## Gestion des Clés SSH
 
-Avant d'exécuter vos playbooks, assurez-vous que votre clé SSH est ajoutée à l'agent SSH. Voici comment vous pouvez gérer différents types de clés SSH :
+Pour éviter de devoir saisir votre passphrase à chaque fois que vous vous connectez a une machine, vous pouvez ajouter votre clé privée à l'agent SSH de votre système local. Assurez-vous que l'agent SSH est démarré :
 
 #### Clés SSH ED25519
 
@@ -61,7 +65,6 @@ eval "$(ssh-agent -s)"
 # Ajouter votre clé SSH RSA
 ssh-add ~/.ssh/id_rsa
 ```
-
 
 Cela permet à Ansible de se connecter aux machines cibles de manière sécurisée.
 
