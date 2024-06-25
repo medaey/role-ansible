@@ -1,0 +1,9 @@
+---
+disable_cramfs: true
+disable_squashfs: true
+disable_hfs: true
+disable_hfsplus: true
+disable_udf: true
+disable_jffs2: true
+disable_freevxfs: true
+remove_rsync: true
