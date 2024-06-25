@@ -1,159 +1,219 @@
 ---
-- name: Check if blacklist.conf exists
-  stat:
-    path: /etc/modprobe.d/blacklist.conf
-  register: blacklist_file
-  changed_when: false
-
-- name: Create blacklist.conf if it does not exist
-  copy:
-    dest: /etc/modprobe.d/blacklist.conf
-  when: not blacklist_file.stat.exists
-
+# Disable kernel modules
 - block:
-  - name: Create cramfs.conf
-    template:
-      src: "etc.modprobe.d.cramfs.conf.j2"
-      dest: "/etc/modprobe.d/cramfs.conf"
-      owner: root
-      group: root
-      mode: 0644
-    when: disable_cramfs == true
+    - name: Check if blacklist.conf exists
+      stat:
+        path: /etc/modprobe.d/blacklist.conf
+      register: blacklist_file
+      changed_when: false
 
-  - name: blacklisted cramfs
-    ansible.builtin.lineinfile:
-      path: /etc/modprobe.d/blacklist.conf
-      regexp: '^blacklist cramfs$'
-      line: blacklist cramfs
-      owner: root
-      group: root
-      mode: '0644'
-    when: disable_cramfs == true
-  when: disable_cramfs == true
+    - name: Create blacklist.conf if it does not exist
+      template:
+        src: "etc.modprobe.d.blacklist.conf.j2"
+        dest: "/etc/modprobe.d/blacklist.conf"
+        owner: root
+        group: root
+        mode: 0644
+      when: not blacklist_file.stat.exists
 
+    - block:
+        - name: Create cramfs.conf
+          template:
+            src: "etc.modprobe.d.cramfs.conf.j2"
+            dest: "/etc/modprobe.d/cramfs.conf"
+            owner: root
+            group: root
+            mode: 0644
+          when: disable_kernel_modules.disable_cramfs == true
 
+        - name: blacklisted cramfs
+          ansible.builtin.lineinfile:
+            path: /etc/modprobe.d/blacklist.conf
+            regexp: '^blacklist cramfs$'
+            line: blacklist cramfs
+            owner: root
+            group: root
+            mode: '0644'
+          when: disable_kernel_modules.disable_cramfs == true
+      when: disable_kernel_modules.disable_cramfs == true
+
+    - block:
+        - name: Create freevxfs.conf
+          template:
+            src: "etc.modprobe.d.freevxfs.conf.j2"
+            dest: "/etc/modprobe.d/freevxfs.conf"
+            owner: root
+            group: root
+            mode: 0644
+          when: disable_kernel_modules.disable_freevxfs == true
+
+        - name: blacklisted freevxfs
+          ansible.builtin.lineinfile:
+            path: /etc/modprobe.d/blacklist.conf
+            regexp: '^blacklist freevxfs$'
+            line: blacklist freevxfs
+            owner: root
+            group: root
+            mode: '0644'
+          when: disable_kernel_modules.disable_freevxfs == true
+      when: disable_kernel_modules.disable_freevxfs == true
+
+    - block:
+        - name: Create hfs.conf
+          template:
+            src: "etc.modprobe.d.hfs.conf.j2"
+            dest: "/etc/modprobe.d/hfs.conf"
+            owner: root
+            group: root
+            mode: 0644
+          when: disable_kernel_modules.disable_hfs == true
+
+        - name: blacklisted hfs
+          ansible.builtin.lineinfile:
+            path: /etc/modprobe.d/blacklist.conf
+            regexp: '^blacklist hfs$'
+            line: blacklist hfs
+            owner: root
+            group: root
+            mode: '0644'
+          when: disable_kernel_modules.disable_hfs == true
+
+    - block:
+        - name: Create hfsplus.conf
+          template:
+            src: "etc.modprobe.d.hfsplus.conf.j2"
+            dest: "/etc/modprobe.d/hfsplus.conf"
+            owner: root
+            group: root
+            mode: 0644
+          when: disable_kernel_modules.disable_hfsplus == true
+
+        - name: blacklisted hfsplus
+          ansible.builtin.lineinfile:
+            path: /etc/modprobe.d/blacklist.conf
+            regexp: '^blacklist hfsplus$'
+            line: blacklist hfsplus
+            owner: root
+            group: root
+            mode: '0644'
+          when: disable_kernel_modules.disable_hfsplus == true
+      when: disable_kernel_modules.disable_hfsplus == true
+
+    - block:
+        - name: Create jffs2.conf
+          template:
+            src: "etc.modprobe.d.jffs2.conf.j2"
+            dest: "/etc/modprobe.d/jffs2.conf"
+            owner: root
+            group: root
+            mode: 0644
+          when: disable_kernel_modules.disable_jffs2 == true
+
+        - name: blacklisted jffs2
+          ansible.builtin.lineinfile:
+            path: /etc/modprobe.d/blacklist.conf
+            regexp: '^blacklist jffs2$'
+            line: blacklist jffs2
+            owner: root
+            group: root
+            mode: '0644'
+          when: disable_kernel_modules.disable_jffs2 == true
+      when: disable_kernel_modules.disable_jffs2 == true
+
+    - block:
+        - name: Create squashfs.conf
+          template:
+            src: "etc.modprobe.d.squashfs.conf.j2"
+            dest: "/etc/modprobe.d/squashfs.conf"
+            owner: root
+            group: root
+            mode: 0644
+          when: disable_kernel_modules.disable_squashfs == true
+
+        - name: blacklisted squashfs
+          ansible.builtin.lineinfile:
+            path: /etc/modprobe.d/blacklist.conf
+            regexp: '^blacklist squashfs$'
+            line: blacklist squashfs
+            owner: root
+            group: root
+            mode: '0644'
+          when: disable_kernel_modules.disable_squashfs == true
+      when: disable_kernel_modules.disable_squashfs == true
+
+    - block:
+        - name: Create udf.conf
+          template:
+            src: "etc.modprobe.d.udf.conf.j2"
+            dest: "/etc/modprobe.d/udf.conf"
+            owner: root
+            group: root
+            mode: 0644
+          when: disable_kernel_modules.disable_udf == true
+
+        - name: blacklisted udf
+          ansible.builtin.lineinfile:
+            path: /etc/modprobe.d/blacklist.conf
+            regexp: '^blacklist udf$'
+            line: blacklist udf
+            owner: root
+            group: root
+            mode: '0644'
+          when: disable_kernel_modules.disable_udf == true
+      when: disable_kernel_modules.disable_udf == true
+
+# Change cron_permissions
 - block:
-  - name: Create freevxfs.conf
-    template:
-      src: "etc.modprobe.d.freevxfs.conf.j2"
-      dest: "/etc/modprobe.d/freevxfs.conf"
-      owner: root
-      group: root
-      mode: 0644
-    when: disable_freevxfs == true
+    - name: Modify /etc/crontab permissions if necessary
+      ansible.builtin.file:
+        path: /etc/crontab
+        state: file
+        owner: root
+        group: root
+        mode: '0600'
+      when: cron_permissions == true
 
-  - name: blacklisted freevxfs
-    ansible.builtin.lineinfile:
-      path: /etc/modprobe.d/blacklist.conf
-      regexp: '^blacklist freevxfs$'
-      line: blacklist freevxfs
-      owner: root
-      group: root
-      mode: '0644'
-    when: disable_freevxfs == true
-  when: disable_freevxfs == true
+    - name: Modify /etc/cron.hourly permissions if necessary
+      ansible.builtin.file:
+        path: /etc/cron.hourly
+        state: directory
+        owner: root
+        group: root
+        mode: '0700'
+      when: cron_permissions == true
 
-- block:
-  - name: Create hfs.conf
-    template:
-      src: "etc.modprobe.d.hfs.conf.j2"
-      dest: "/etc/modprobe.d/hfs.conf"
-      owner: root
-      group: root
-      mode: 0644
-    when: disable_hfs == true
+    - name: Modify /etc/cron.daily permissions if necessary
+      ansible.builtin.file:
+        path: /etc/cron.daily
+        state: directory
+        owner: root
+        group: root
+        mode: '0700'
+      when: cron_permissions == true
 
-  - name: blacklisted hfs
-    ansible.builtin.lineinfile:
-      path: /etc/modprobe.d/blacklist.conf
-      regexp: '^blacklist hfs$'
-      line: blacklist hfs
-      owner: root
-      group: root
-      mode: '0644'
-    when: disable_hfs == true
-  when: disable_hfs == true
+    - name: Modify /etc/cron.weekly permissions if necessary
+      ansible.builtin.file:
+        path: /etc/cron.weekly
+        state: directory
+        owner: root
+        group: root
+        mode: '0700'
+      when: cron_permissions == true
 
-- block:
-  - name: Create hfsplus.conf
-    template:
-      src: "etc.modprobe.d.hfsplus.conf.j2"
-      dest: "/etc/modprobe.d/hfsplus.conf"
-      owner: root
-      group: root
-      mode: 0644
-    when: disable_hfsplus == true
+    - name: Modify /etc/cron.monthly permissions if necessary
+      ansible.builtin.file:
+        path: /etc/cron.monthly
+        state: directory
+        owner: root
+        group: root
+        mode: '0700'
+      when: cron_permissions == true
 
-  - name: blacklisted hfsplus
-    ansible.builtin.lineinfile:
-      path: /etc/modprobe.d/blacklist.conf
-      regexp: '^blacklist hfsplus$'
-      line: blacklist hfsplus
-      owner: root
-      group: root
-      mode: '0644'
-    when: disable_hfsplus == true
-  when: disable_hfsplus == true
-
-- block:
-  - name: Create jffs2.conf
-    template:
-      src: "etc.modprobe.d.jffs2.conf.j2"
-      dest: "/etc/modprobe.d/jffs2.conf"
-      owner: root
-      group: root
-      mode: 0644
-    when: disable_jffs2 == true
-
-  - name: blacklisted jffs2
-    ansible.builtin.lineinfile:
-      path: /etc/modprobe.d/blacklist.conf
-      regexp: '^blacklist jffs2$'
-      line: blacklist jffs2
-      owner: root
-      group: root
-      mode: '0644'
-    when: disable_jffs2 == true
-  when: disable_jffs2 == true
-
-- block:
-  - name: Create squashfs.conf
-    template:
-      src: "etc.modprobe.d.squashfs.conf.j2"
-      dest: "/etc/modprobe.d/squashfs.conf"
-      owner: root
-      group: root
-      mode: 0644
-    when: disable_squashfs == true
-
-  - name: blacklisted squashfs
-    ansible.builtin.lineinfile:
-      path: /etc/modprobe.d/blacklist.conf
-      regexp: '^blacklist squashfs$'
-      line: blacklist squashfs
-      owner: root
-      group: root
-      mode: '0644'
-    when: disable_squashfs == true
-  when: disable_squashfs == true
-
-- block:
-  - name: Create udf.conf
-    template:
-      src: "etc.modprobe.d.udf.conf.j2"
-      dest: "/etc/modprobe.d/udf.conf"
-      owner: root
-      group: root
-      mode: 0644
-    when: disable_udf == true
-
-  - name: blacklisted udf
-    ansible.builtin.lineinfile:
-      path: /etc/modprobe.d/blacklist.conf
-      regexp: '^blacklist udf$'
-      line: blacklist udf
-      owner: root
-      group: root
-      mode: '0644'
-    when: disable_udf == true
-  when: disable_udf == true
+    - name: Modify /etc/cron.d permissions if necessary
+      ansible.builtin.file:
+        path: /etc/cron.d
+        state: directory
+        owner: root
+        group: root
+        mode: '0700'
+      when: cron_permissions == true

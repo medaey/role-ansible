@@ -1,9 +1,13 @@
 ---
-disable_cramfs: true
-disable_squashfs: true
-disable_hfs: true
-disable_hfsplus: true
-disable_udf: true
-disable_jffs2: true
-disable_freevxfs: true
-remove_rsync: true
+# Variables pour indiquer les modules du kernel à désactiver
+disable_kernel_modules:
+  disable_cramfs: true
+  disable_squashfs: true
+  disable_hfs: true
+  disable_hfsplus: true
+  disable_udf: true
+  disable_jffs2: true
+  disable_freevxfs: true
+
+# Variable pour indiquer si l'on doit modifier les permissions cron
+cron_permissions: true
