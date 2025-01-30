@@ -38,7 +38,7 @@ eval "$(ssh-agent -s)"
 ssh-add ~/.ssh/id_ed25519
 
 # Executer une playbook
-ansible-playbook playbooks/my_tools.yml
+ansible-playbook playbooks/ssh.yml -i inventory/hosts.ini
 ```
 
 Vous pouvez toujour effectuer un ping sur vos machines pour vérifier quelle soit bien disponible.
