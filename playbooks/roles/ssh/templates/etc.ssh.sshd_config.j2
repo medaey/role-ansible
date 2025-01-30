@@ -1,7 +1,7 @@
 Include /etc/ssh/sshd_config.d/*.conf
 
 Port 22
-AddressFamily inet          # Specifies which IP address family sshd should use. (any, inet (IPv4 only), inet6 (IPv6 only)).
+AddressFamily inet                 # Specifies which IP address family sshd should use. (any, inet (IPv4 only), inet6 (IPv6 only)).
 
 ListenAddress 0.0.0.0
 PrintLastLog yes
@@ -11,24 +11,24 @@ KbdInteractiveAuthentication no
 Subsystem       sftp    /usr/lib/openssh/sftp-server
 
 SyslogFacility AUTH
-protocol 2                  # Ensure SSH Protocol is not set to 1
-LogLevel INFO               # Ensure SSH LogLevel is appropriate
-X11Forwarding no            # Ensure SSH X11 forwarding is disabled
-MaxAuthTries 3              # Ensure SSH MaxAuthTries is set to 4 or less
-IgnoreRhosts yes            # Ensure SSH IgnoreRhosts is enabled
-HostbasedAuthentication no  # Ensure SSH HostbasedAuthentication is disabled
-PermitRootLogin yes         # Ensure SSH root login is disabled
-PermitEmptyPasswords no     # Ensure SSH PermitEmptyPasswords is disabled
-PermitUserEnvironment no    # Ensure SSH PermitUserEnvironment is disabled
-LoginGraceTime 60s          # Ensure SSH LoginGraceTime is set to one minute or less
-UsePAM yes                  # Ensure SSH PAM is enabled
-maxsessions 10              # Ensure SSH MaxSessions is set to 4 or less
-AllowTCPForwarding no       # Ensure SSH AllowTcpForwarding is disabled
-maxstartups 10:30:60        # Ensure SSH MaxStartups is configured
-RekeyLimit 512M 6h          # Ensure SSH RekeyLimit is configured
-StrictModes yes             # Ensure SSH StrictModes is enabled
-IgnoreUserKnownHosts yes    # Ensure SSH IgnoreUserKnownHosts is enabled
-Banner /etc/ssh/banner      # Ensure SSH warning banner is configured
+protocol 2                         # Ensure SSH Protocol is not set to 1
+LogLevel INFO                      # Ensure SSH LogLevel is appropriate
+X11Forwarding no                   # Ensure SSH X11 forwarding is disabled
+MaxAuthTries 3                     # Ensure SSH MaxAuthTries is set to 4 or less
+IgnoreRhosts yes                   # Ensure SSH IgnoreRhosts is enabled
+HostbasedAuthentication no         # Ensure SSH HostbasedAuthentication is disabled
+PermitRootLogin prohibit-password  # Ensure SSH root login is disabled
+PermitEmptyPasswords no            # Ensure SSH PermitEmptyPasswords is disabled
+PermitUserEnvironment no           # Ensure SSH PermitUserEnvironment is disabled
+LoginGraceTime 60s                 # Ensure SSH LoginGraceTime is set to one minute or less
+UsePAM yes                         # Ensure SSH PAM is enabled
+maxsessions 10                     # Ensure SSH MaxSessions is set to 4 or less
+AllowTCPForwarding no              # Ensure SSH AllowTcpForwarding is disabled
+maxstartups 10:30:60               # Ensure SSH MaxStartups is configured
+RekeyLimit 512M 6h                 # Ensure SSH RekeyLimit is configured
+StrictModes yes                    # Ensure SSH StrictModes is enabled
+IgnoreUserKnownHosts yes           # Ensure SSH IgnoreUserKnownHosts is enabled
+Banner /etc/ssh/banner             # Ensure SSH warning banner is configured
 
 # Ensure sshd ClientAliveInterval and ClientAliveCountMax are configured
 ClientAliveInterval 300
