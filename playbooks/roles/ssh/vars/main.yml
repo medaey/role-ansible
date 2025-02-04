@@ -1,5 +1,5 @@
 ---
 # vars file for ssh
 ssh_allowed_users:
-  - sysadmin
+  - toor
   - medaey

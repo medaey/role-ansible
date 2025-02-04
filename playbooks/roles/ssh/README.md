@@ -28,7 +28,7 @@ Description: your role description
 
 | Var          | Type         | Value       |Required    | Title       |
 |--------------|--------------|-------------|-------------|-------------|
-| [ssh_allowed_users](vars/main.yml#L3)   | list   | `['sysadmin', 'medaey']` |    n/a  |  n/a |
+| [ssh_allowed_users](vars/main.yml#L3)   | list   | `['toor', 'medaey']` |    n/a  |  n/a |
 
 
 ### Tasks
