@@ -1,0 +1,69 @@
+---
+# Installation des paquets
+- name: Installation des PAQUETS
+  community.general.apk:
+    name: [openssh-server, openssh-server-pam]
+    state: latest
+    update_cache: true
+  when: ansible_distribution == "Alpine"
+
+- name: Vérifier si le répertoire /etc/ssh/sshd_config.d existe
+  stat:
+    path: /etc/ssh/sshd_config.d
+  register: sshd_config_d
+
+- name: Créer le répertoire /etc/ssh/sshd_config.d
+  file:
+    path: /etc/ssh/sshd_config.d
+    state: directory
+    mode: '0755'
+  when: not sshd_config_d.stat.exists
+
+- name: "SSH - Importation des configuration"
+  block:
+    - name: "SSH - Configuration de sshd"
+      ansible.builtin.template:
+        src: "{{ role_path }}/templates/{{ item.src }}"
+        dest: "{{ item.dest }}"
+        mode: "{{ item.mode }}"
+        owner: root
+        group: root
+      loop:
+        - { src: "etc.ssh.sshd_config.j2", dest: "/etc/ssh/sshd_config", mode: "0600" }
+        - { src: "etc.ssh.banner.j2", dest: "/etc/ssh/banner", mode: "0600", cis: Ensure SSH warning banner is configured }
+  become: true
+  ignore_errors: true
+
+- name: Commenter la ligne GSSAPIAuthentication pour Alpine Linux
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '.*GSSAPIAuthentication.*'
+    line: '#GSSAPIAuthentication no'
+    insertbefore: BOF
+  when: ansible_distribution == "Alpine"
+
+
+- name: Commenter la ligne GSSAPIKeyExchange pour Alpine Linux
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: 'GSSAPIKeyExchange.*'
+    line: '#GSSAPIKeyExchange no'
+    insertbefore: BOF
+  when: ansible_distribution == "Alpine"
+
+- name: Commenter la ligne KerberosAuthentication pour Alpine Linux
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '.*KerberosAuthentication.*'
+    line: '#KerberosAuthentication no'
+    insertbefore: BOF
+  when: ansible_distribution == "Alpine"
+
+- name: Commenter la ligne PrintLastLog pour Alpine Linux
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '.*PrintLastLog.*'
+    line: '#PrintLastLog no'
+    insertbefore: BOF
+  notify: restart sshd
+  when: ansible_distribution == "Alpine"
