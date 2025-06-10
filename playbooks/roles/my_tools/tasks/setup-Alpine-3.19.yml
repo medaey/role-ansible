@@ -1,7 +1,7 @@
 ---
 - name: Installation des PAQUETS
   community.general.apk:
-    name: [mc, tree, net-tools, htop, neofetch, wget, ufw, ncdu, nmap, nano]
+    name: [mc, tree, net-tools, btop, neofetch, wget, ufw, ncdu, nmap, nano]
     state: latest
     update_cache: true
   when: ansible_distribution == "Alpine"
