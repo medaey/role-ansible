@@ -26,9 +26,10 @@ Assurez-vous d'adapter ces commandes selon votre distribution Linux (par exemple
 
 ## Exemple d'Utilisation
 
-Avant tout je vous invite a regarer et modifier le contenu du dossier `inventories`, ce dossier contient les machines qui seront administrer via ansible.
+Avant tout, je vous invite à regarder et modifier le contenu du dossier `inventories`. Ce dossier contient la liste des machines qui seront administrées via Ansible.
 Pour exécuter le rôle `my_tools` sur les machines définies dans votre fichier d'inventaire :
-Assurez-vous que vos machines cibles sont correctement configurées dans l'inventaire et qu'elles appartiennent au groupe correspondant au rôle `my_tools`.
+
+Assurez-vous que vos machines cibles sont correctement configurées dans l'inventaire et qu'elles appartiennent bien au groupe correspondant au rôle `my_tools`.
 
 ```bash
 # Démarrer l'agent SSH
