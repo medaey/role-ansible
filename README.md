@@ -1,17 +1,17 @@
 # Ansible pour l'Automatisation des Services
 
-## Qu'est-ce qu'Ansible ?
+## 💡 Qu'est-ce qu'Ansible ?
 
 Ansible est un outil d'automatisation qui permet d'installer et de configurer efficacement des machines à travers des recettes écrites en YAML. Il simplifie la gestion des configurations et des déploiements en utilisant SSH et Python.
 
 __ℹ Info : il existe des outils similaires (Chef, Puppet, SaltStack, Fabric, Terraform)__
-## Avantages d'Ansible
+## 🚀 Avantages d'Ansible
 
 - **Simplicité** : Écrit en YAML, facile à apprendre et à lire.
 - **Homogénéité** : Uniformise la configuration des machines.
 - **Versatilié** : Utilise uniquement SSH et Python.
 
-## Prérequis
+## 📋 Prérequis
 
 Pour utiliser ce projet, vous devez installer  Git, Ansible et les modules de la communauté ansible-galaxy :
 
@@ -24,7 +24,7 @@ cd role-ansible/
 
 Assurez-vous d'adapter ces commandes selon votre distribution Linux (par exemple, utilisez `yum` pour CentOS/RHEL).
 
-## Exemple d'Utilisation
+## 🛠 Exemple d'Utilisation
 
 Avant tout, je vous invite à regarder et modifier le contenu du dossier `inventories`. Ce dossier contient la liste des machines qui seront administrées via Ansible.
 Pour exécuter le rôle `my_tools` sur les machines définies dans votre fichier d'inventaire :
@@ -76,7 +76,7 @@ ssh-add ~/.ssh/id_rsa
 
 Cela permet à Ansible de se connecter aux machines cibles de manière sécurisée.
 
-## Création de Nouveaux Rôles
+## 🏗 Création de Nouveaux Rôles
 
 Pour créer un nouveau rôle Ansible à l'aide du script `create_role.sh` :
 
