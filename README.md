@@ -93,5 +93,41 @@ En suivant ces instructions, votre projet Ansible sera prêt à automatiser effi
 
 ---
 
-### Source
-- [Ansible](https://www.ansible.com/)
+## 🧪 Tests avec Molecule
+
+Ce rôle utilise [Molecule](https://molecule.readthedocs.io/) avec le driver **Docker** pour tester la configuration sur plusieurs distributions simultanément (Debian 12, Alpine 3.18+, Rocky Linux 9).
+
+### Pré-requis
+* Docker
+* Python 3 & Ansible
+* Molecule & Molecule-plugins[docker]
+
+### Commandes de base
+
+| Commande | Description |
+| :--- | :--- |
+| `molecule list` | Affiche l'état des instances de test. |
+| `molecule create` | Crée les conteneurs de test. |
+| `molecule converge` | Applique le rôle Ansible sur les instances. |
+| `molecule verify` | Exécute les tests de vérification. |
+| `molecule reset` | Supprime et recrée les instances (utile en cas d'erreur). |
+| `molecule destroy` | Supprime toutes les instances de test. |
+| `molecule test` | Exécute le cycle complet (create, converge, verify, destroy). |
+
+### Debugging (Accès aux conteneurs)
+
+Si tu souhaites inspecter manuellement les fichiers générés dans un conteneur spécifique :
+
+```bash
+# Exemple pour se connecter à Alpine 3.18
+molecule login --host ssh-alpine-318
+
+# Une fois à l'intérieur, vérifie la config :
+cat /etc/ssh/sshd_config
+exit
+```
+
+## 🔗 Sources & Documentation
+
+*   [Documentation Officielle Ansible](https://docs.ansible.com/)
+*   [Dépôt GitHub du Projet](https://github.com/medaey/role-ansible)
