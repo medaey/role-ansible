@@ -1,0 +1,47 @@
+---
+dependency:
+  name: galaxy
+
+driver:
+  name: docker
+
+platforms:
+  - name: ssh-alpine-318
+    image: alpine:3.18
+    groups: [alpine_family]
+  - name: ssh-alpine-319
+    image: alpine:3.19
+    groups: [alpine_family]
+  - name: ssh-alpine-320
+    image: alpine:3.20
+    groups: [alpine_family]
+  - name: ssh-alpine-321
+    image: alpine:3.21
+    groups: [alpine_family]
+  - name: ssh-alpine-322
+    image: alpine:3.22
+    groups: [alpine_family]
+  - name: ssh-debian-12
+    image: debian:12
+    groups: [debian_family]
+  - name: ssh-rocky-9
+    image: rockylinux:9
+    groups: [redhat_family]
+
+# molecule/default/molecule.yml
+provisioner:
+  name: ansible
+  config_options:
+    defaults:
+      # On remonte : default(1) -> molecule(2) -> ssh(3) -> roles/(4)
+      # Mais Ansible a besoin de voir le dossier PARENT de "ssh"
+      roles_path: ../../../
+      #interpreter_python: auto_silent
+  playbooks:
+    # SUPPRIME create: create.yml et destroy: destroy.yml s'ils sont vides ou cassés
+    # Garde seulement ceux-là :
+    prepare: prepare.yml
+    converge: converge.yml
+
+verifier:
+  name: ansible

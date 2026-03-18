@@ -1,16 +1,16 @@
 ---
-- name: Afficher la famille du système d'exploitation et la version majeure
+- name: Afficher les infos de distribution pour debug
   debug:
-    msg: "ansible_os_family: {{ ansible_os_family }}-{{ ansible_distribution_version.split('.')[0] }}"
+    msg: "Distribution: {{ ansible_distribution }}, Version: {{ ansible_distribution_version }}"
 
-- name: Inclure les tâches spécifiques pour les versions majeures de Debian
+- name: Inclure les tâches pour Debian
   include_tasks: "setup-Debian-{{ ansible_distribution_version.split('.')[0] }}.yml"
   when: ansible_distribution == "Debian"
 
-- name: Inclure les tâches spécifiques pour les versions majeures d'Alpine
+- name: Inclure les tâches pour Alpine
   include_tasks: "setup-Alpine-{{ ansible_distribution_version.split('.')[:2] | join('.') }}.yml"
   when: ansible_distribution == "Alpine"
 
-- name: Inclure les tâches spécifiques pour les versions majeures de RockyLinux
+- name: Inclure les tâches pour Rocky
   include_tasks: "setup-RockyLinux-{{ ansible_distribution_version.split('.')[0] }}.yml"
   when: ansible_distribution == "Rocky"

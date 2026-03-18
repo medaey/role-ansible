@@ -1,0 +1,8 @@
+---
+- name: Prepare nodes
+  hosts: alpine_family
+  gather_facts: false
+  tasks:
+    - name: Install python3 and sudo on Alpine
+      raw: apk add --no-cache python3 sudo
+      changed_when: false

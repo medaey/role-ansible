@@ -1,0 +1,21 @@
+---
+- name: Converge
+  hosts: all
+  gather_facts: true
+  vars:
+    ssh_allowed_users: ["toor"]
+  
+  # ON DÉFINIT LE HANDLER ICI AUSSI POUR MOLECULE
+  handlers:
+    - name: restart sshd
+      ansible.builtin.service:
+        name: "{{ (ansible_os_family == 'Debian') | ternary('ssh', 'sshd') }}"
+        state: restarted
+      failed_when: false # Indispensable pour Docker
+
+  tasks:
+    - name: "Exécution des tâches du rôle"
+      include_tasks: "../../tasks/main.yml"
+
+    - name: "Forcer l'exécution des handlers avant la fin"
+      meta: flush_handlers

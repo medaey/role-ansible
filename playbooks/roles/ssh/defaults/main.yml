@@ -1,2 +1,3 @@
+# defaults/main.yml
 ---
-# defaults file for ssh
+ssh_allowed_users: []  # Une liste vide par défaut pour éviter l'erreur

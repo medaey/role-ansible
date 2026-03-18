@@ -1,8 +1,10 @@
 ---
-# handlers file for ssh
 - name: restart sshd
-  become: true
-  service:
-    name: sshd
-    enabled: yes
+  ansible.builtin.service:
+    # Gère les noms différents (ssh sur Debian, sshd sur Alpine/Rocky)
+    name: "{{ (ansible_os_family == 'Debian') | ternary('ssh', 'sshd') }}"
     state: restarted
+  # INDISPENSABLE POUR MOLECULE/DOCKER :
+  # On ne fait rien si on est dans un conteneur sans système de service
+  when: ansible_service_mgr != 'none'
+  ignore_errors: true

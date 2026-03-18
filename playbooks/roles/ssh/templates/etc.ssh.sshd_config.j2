@@ -57,9 +57,8 @@ PrintMotd no
 
 # SSH access is limited
 {% for user in ssh_allowed_users %}
-# AllowUsers {{ user }}@{{ hostvars['localhost']['ssh_allowed_public_ip_address'] }} {{ user }}@{{ hostvars['localhost']['ssh_allowed_private_ip_address'] }}
+# AllowUsers {{ user }}@{{ hostvars['localhost']['ssh_allowed_public_ip_address'] | default('127.0.0.1') }} {{ user }}@{{ hostvars['localhost']['ssh_allowed_private_ip_address'] | default('0.0.0.0') }}
 {% endfor %}
-# AllowGroups {% for group in ssh_allowed_users %}{{ group }}{% if not loop.last %} {% endif %}{% endfor %}
 
 DenyUsers nobody
 DenyGroups nobody

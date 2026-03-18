@@ -2,7 +2,7 @@
 # Installation des paquets
 - name: Installation des PAQUETS
   community.general.apk:
-    name: [openssh-server, openssh-server-pam]
+    name: [openssh-server, openssh-server-pam, nano]
     state: latest
     update_cache: true
   when: ansible_distribution == "Alpine"
@@ -23,7 +23,7 @@
   block:
     - name: "SSH - Configuration de sshd"
       ansible.builtin.template:
-        src: "{{ role_path }}/templates/{{ item.src }}"
+        src: "../templates/{{ item.src }}"
         dest: "{{ item.dest }}"
         mode: "{{ item.mode }}"
         owner: root
